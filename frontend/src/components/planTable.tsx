@@ -29,12 +29,12 @@ export const PlanTable = (props: PlanTableProps) => {
         </Table.Head>
         <Table.Body className="divide-y">
           {props.plans.map(element =>(
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-900">
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white border-r-2">
-              {element.medicineName}
-            </Table.Cell>
-            <Table.Cell className="border-r-2">{element.noOfPills}</Table.Cell>
-            <Table.Cell>{element.frequency}</Table.Cell>
+            <Table.Row key={element.id} className="bg-white dark:border-gray-700 dark:bg-gray-900">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white border-r-2">
+                {element.medicineName}
+              </Table.Cell>
+              <Table.Cell className="border-r-2">{element.noOfPills}</Table.Cell>
+              <Table.Cell>{element.frequency}</Table.Cell>
           </Table.Row>
           ))}
         </Table.Body>

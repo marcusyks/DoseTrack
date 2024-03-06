@@ -11,28 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// type CardProps = {
-//     width: number,
-//     height: number,
-// }
-import { Link } from "react-router-dom"
-import { Button } from 'flowbite-react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "flowbite-react";
 
-type ButtonProps = {
-    title: string
-    dest: string
-}
+export const LogoutButton = () => {
+  const { logout } = useAuth0();
 
-export const CustomButton = (props:ButtonProps) => {
-    return(
-        <div className="flex-center">
-            <Link to={props.dest}>
-                <Button pill>
-                    {props.title}
-                </Button>
-            </Link>
-        </div>
-    )
-}
+  return (
+    <Button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+      Log Out
+    </Button>
+  );
+};
 
-export default CustomButton
+export default LogoutButton;

@@ -14,9 +14,12 @@
 
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import Logo from '../icons/logo512.png'
-
+import FetchUserData from '../auth/fetchUserData';
+import LogoutButton from '../auth/logoutButton';
 
 export const NavBar = () =>{
+    const user = FetchUserData()
+
     return (
     <Navbar fluid rounded className='bg-blue-200'>
       <Navbar.Brand>
@@ -27,17 +30,17 @@ export const NavBar = () =>{
           arrowIcon={false}
           inline
           label={
-            <Avatar className="mr-4" alt="User settings" rounded />
+            <Avatar className="mr-4" alt="User settings" img={user?.picture} rounded />
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block text-sm">{user?.name}</span>
+            <span className="block truncate text-sm font-medium">{user?.email}</span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
+          <Dropdown.Item href="/">Dashboard</Dropdown.Item>
+          <Dropdown.Item href="/settings">Settings</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item>{<LogoutButton/>}</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>

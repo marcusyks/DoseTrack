@@ -17,6 +17,8 @@ import GridStats from "./gridStats";
 import Plan from "../objects/Plan";
 import fetchData from "../api/fetchData";
 import { useEffect, useState } from "react";
+import Profile from "../auth/profile";
+
 
 const dashboardOptions: Content[] = [
     {title:"Plans",content:"Update your plans",buttonLink:"Update"},
@@ -26,6 +28,7 @@ const dashboardOptions: Content[] = [
 
 export const DashboardPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
+
 
     useEffect(()=>{
         async function fetchDataFromAPI(){
@@ -42,8 +45,7 @@ export const DashboardPage = () => {
     return(
             <div>
                 <div className='section'>
-                    {/* Username fetch */}
-                    <h1>Welcome back, username</h1>
+                    {Profile()}
                 </div>
                 <div>
                     <div className="text-left md:pl-28 pl-10 text-2xl">Statistics</div>

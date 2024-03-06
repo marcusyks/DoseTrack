@@ -2,27 +2,21 @@
 // import logo from './logo.svg';
 import './index.css';
 import {
-  createBrowserRouter,
-  RouterProvider,
+  Route,
+  Routes,
 } from "react-router-dom";
 import {DashboardContainer} from './containers/dashboardContainer';
 import LoginContainer from './containers/loginContainer';
-
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <DashboardContainer/>,
-  },
-  {
-    path: "/login",
-    element: <LoginContainer/>
-  }
-]);
+import PlanContainer from './containers/planContainer';
 
 function App() {
   return (
-    <RouterProvider router={router} />
+      <Routes>
+        <Route path="/dashboard" element={<DashboardContainer/>} ></Route>
+        <Route path="/login" element={<LoginContainer/>}></Route>
+        <Route path="/" element={<DashboardContainer/>}></Route>
+        <Route path="/plan" element={<PlanContainer/>}></Route>
+      </Routes>
   );
 }
 

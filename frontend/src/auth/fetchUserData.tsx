@@ -11,28 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// type CardProps = {
-//     width: number,
-//     height: number,
-// }
-import { Link } from "react-router-dom"
-import { Button } from 'flowbite-react';
+import { useAuth0 } from "@auth0/auth0-react";
 
-type ButtonProps = {
-    title: string
-    dest: string
-}
+export const FetchUserData = () => {
+    const { user, isLoading } = useAuth0();
 
-export const CustomButton = (props:ButtonProps) => {
-    return(
-        <div className="flex-center">
-            <Link to={props.dest}>
-                <Button pill>
-                    {props.title}
-                </Button>
-            </Link>
-        </div>
-    )
-}
+    if(isLoading){
+        return undefined;
+    }
 
-export default CustomButton
+    return user;
+};
+
+export default FetchUserData
