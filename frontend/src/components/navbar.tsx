@@ -29,7 +29,7 @@ export const NavBar = () =>{
     }
 
     return (
-    <Navbar fluid rounded className='bg-blue-200'>
+    <Navbar fluid rounded className='bg-blue-200 sticky top-0'>
       <Navbar.Brand>
         <object data={Logo} type="image/png" className=" h-6 sm:h-9" aria-label="DoseTrack Logo"></object>
       </Navbar.Brand>
@@ -56,7 +56,7 @@ export const NavBar = () =>{
         <Navbar.Link className="text-xl" href="/" active={checkActive('/')}>
           Dashboard
         </Navbar.Link>
-        <Navbar.Link className="text-xl" href="/plan" active={checkActive('/plan')}>Plan</Navbar.Link>
+        <Navbar.Link className="text-xl" href="/createplan" active={checkActive('/createplan')}>Plan</Navbar.Link>
         <Navbar.Link className="text-xl" href="/track" active={checkActive('/track')}>Track</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

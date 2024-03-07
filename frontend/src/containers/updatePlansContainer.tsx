@@ -11,27 +11,27 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { useNavigate } from "react-router-dom";
-import CustomFooter from "../components/footer";
-import LoginPage from "../components/loginPage";
-import { ErrorBoundary } from "react-error-boundary";
 import FetchUserData from "../auth/fetchUserData";
+import { useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import NavBar from "../components/navbar";
+import CustomFooter from "../components/footer";
 import ErrorPage from "../components/errorPage";
 import CustomSpinner from "../components/spinner";
+import UpdatePlanPage from "../components/updatePlanPage";
 
-
-export const LoginContainer = () => {
-    const isAuthenticated = FetchUserData();
+export const UpdatePlanContainer = () =>{
     const navigate = useNavigate();
-
-    if (isAuthenticated){
-        navigate('/');
+    const isAuthenticated = FetchUserData();
+    if(!isAuthenticated){
+        navigate('./login')
     }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            {!isAuthenticated ? (
+            {isAuthenticated ? (
                 <div className="h-screen">
-                    <LoginPage/>
+                    <NavBar/>
+                    <UpdatePlanPage/>
                     <CustomFooter/>
                 </div>
             ) : (<CustomSpinner/>)}
@@ -39,4 +39,4 @@ export const LoginContainer = () => {
     );
 }
 
-export default LoginContainer
+export default UpdatePlanContainer;

@@ -29,11 +29,11 @@ export const PlanContainer = () =>{
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
-                <>
+                <div className="h-screen">
                     <NavBar/>
                     <PlanPage/>
                     <CustomFooter/>
-                </>
+                </div>
             ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );

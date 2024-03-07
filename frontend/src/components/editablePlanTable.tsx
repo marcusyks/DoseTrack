@@ -19,7 +19,7 @@ type PlanTableProps = {
     plans: Plan[],
 }
 
-export const PlanTable = (props: PlanTableProps) => {
+export const EditablePlanTable = (props: PlanTableProps) => {
   return (
     <div className="overflow-x-auto">
       <Table className="border-2">
@@ -27,6 +27,10 @@ export const PlanTable = (props: PlanTableProps) => {
           <Table.HeadCell className="border-r-2">Medicine Name</Table.HeadCell>
           <Table.HeadCell className="border-r-2">No of Pills</Table.HeadCell>
           <Table.HeadCell className="border-r-2">Frequency</Table.HeadCell>
+          <Table.HeadCell className="border-r-2">Mode Of Contact</Table.HeadCell>
+          <Table.HeadCell className="border-r-2">
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {props.plans.map(element =>(
@@ -35,7 +39,13 @@ export const PlanTable = (props: PlanTableProps) => {
                 {element.medicineName}
               </Table.Cell>
               <Table.Cell className="border-r-2">{element.noOfPills}</Table.Cell>
-              <Table.Cell>{ConvertDays(element.frequency)}</Table.Cell>
+              <Table.Cell className="border-r-2">{ConvertDays(element.frequency)}</Table.Cell>
+              <Table.Cell className="border-r-2">{element.modeOfContact.toUpperCase()}</Table.Cell>
+              <Table.Cell>
+                <a href="/1" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                    Edit
+                </a>
+            </Table.Cell>
           </Table.Row>
           ))}
         </Table.Body>
@@ -44,4 +54,4 @@ export const PlanTable = (props: PlanTableProps) => {
   );
 }
 
-export default PlanTable
+export default EditablePlanTable

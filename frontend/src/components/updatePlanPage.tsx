@@ -11,23 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import GridConfig from "./gridConfig";
-import Content from "../objects/gridContent";
 import GridStats from "./gridStats";
-import Plan from "../objects/Plan";
-import FetchData from "../api/plans/fetchData";
-import { useEffect, useState } from "react";
-import Profile from "../auth/profile";
+import { useState, useEffect } from "react";
 import FetchUserData from "../auth/fetchUserData";
+import FetchData from "../api/plans/fetchData";
+import Plan from "../objects/Plan";
 
-const dashboardOptions: Content[] = [
-    {title:"Plans",content:"Update your plans",buttonLink:"Update"},
-    {title:"Settings",content:"Edit your profile",buttonLink:"Edit"},
-    {title:"Track",content:"Track your intake",buttonLink:"Check"}
-]
-
-export const DashboardPage = () => {
+export const UpdatePlanPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
+    const [editMode, setEditMode] = useState(false);
     const userID = FetchUserData()?.sub;
 
     useEffect(()=>{
@@ -43,20 +35,12 @@ export const DashboardPage = () => {
       },[userID])
 
     return(
+        <div className="flex-center h-5/6">
             <div>
-                <div className='section'>
-                    {Profile()}
-                </div>
-                <div>
-                    <div className="text-left md:pl-28 pl-10 text-2xl">Statistics</div>
-                    <GridStats plans={plans}/>
-                </div>
-                <div className="pt-8">
-                    <div className="text-left pl-28 pb-4 text-2xl">Configurations</div>
-                    <GridConfig content={dashboardOptions}/>
-                </div>
+                <GridStats plans={plans}/>
             </div>
+        </div>
     );
 }
 
-export default DashboardPage
+export default UpdatePlanPage;

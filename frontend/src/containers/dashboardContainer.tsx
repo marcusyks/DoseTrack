@@ -30,11 +30,11 @@ export const DashboardContainer = () =>{
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
-                <>
+                <div className="h-screen">
                     <NavBar/>
                     <DashboardPage/>
                     <CustomFooter/>
-                </>
+                </div>
             ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );

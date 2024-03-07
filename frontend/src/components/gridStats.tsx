@@ -14,20 +14,35 @@
 import Plan from "../objects/Plan";
 import { Card } from "flowbite-react";
 import PlanTable from "./planTable";
+import EditablePlanTable from "./editablePlanTable";
 
 type GridStatsProps = {
     plans: Plan[],
 }
 
 export const GridStats = (props: GridStatsProps) =>{
-    return(
-        <div className="grid grid-col-1 md:grid-cols-3 md:px-28 rounded px-10 gap-8 my-4">
-            <Card className="col-span-1 md:col-span-3">
-                <span className="text-2xl flex-center">Current Plans</span>
-                <PlanTable plans={props.plans}></PlanTable>
-            </Card>
-        </div>
-    )
+    // if type is typeof PlanTable
+    if (window.location.pathname === '/plans'){
+        return(
+            <div className="grid grid-col-1 md:grid-cols-3 md:px-28 rounded px-10 gap-8 my-4">
+                <Card className="col-span-1 md:col-span-3">
+                    <span className="text-2xl flex-center">Your Plans</span>
+                    <EditablePlanTable plans={props.plans}></EditablePlanTable>
+                </Card>
+            </div>
+        )
+    }
+    // if type is typeof EditablePlanTable
+    else{
+        return(
+            <div className="grid grid-col-1 md:grid-cols-3 md:px-28 rounded px-10 gap-8 my-4">
+                <Card className="col-span-1 md:col-span-3">
+                    <span className="text-2xl flex-center">Current Plans</span>
+                    <PlanTable plans={props.plans}></PlanTable>
+                </Card>
+            </div>
+        )
+    }
 }
 
 export default GridStats

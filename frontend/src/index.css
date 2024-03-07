@@ -10,7 +10,7 @@
     @apply text-center m-0 p-0;
   }
   .section {
-    @apply p-16 w-screen text-3xl flex-col flex-center;
+    @apply p-10 w-screen text-3xl flex-col flex-center;
   }
 }
 

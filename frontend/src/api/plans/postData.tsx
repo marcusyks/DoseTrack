@@ -14,7 +14,7 @@
 
 export const PostData = async (data: string, type: string) => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

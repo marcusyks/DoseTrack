@@ -13,14 +13,17 @@
 // limitations under the License.
 import { Button, Label, TextInput, Card, Radio, Checkbox} from 'flowbite-react';
 import { FormEvent, useState } from 'react';
-import PostData from '../api/postData';
+import PostData from '../api/plans/postData';
 import FetchUserData from '../auth/fetchUserData';
+import CustomAlert from '../utils/alert';
 
 export const PlanPage = () => {
     const [medicineName, setMedicineName] = useState('');
     const [noOfPills, setNoOfPills] = useState('');
     const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
     const [modeOfContact, setModeOfContact] = useState('');
+    const [alertString, setAlertString] = useState('');
+    const [alertColor, setAlertColor] = useState('');
     const user = FetchUserData();
 
     function addDaysOfWeek(e: string){
@@ -41,6 +44,16 @@ export const PlanPage = () => {
         // Rearranging of daysOfWeek
         daysOfWeek.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
         const finalDaysOfWeek = daysOfWeek.join("");
+        if(finalDaysOfWeek.length === 0){
+            setAlertColor('failure')
+            setAlertString(`Choose at least one day of the week`)
+            return
+        }
+        if(modeOfContact.length === 0){
+            setAlertColor('failure')
+            setAlertString(`Choose one mode of contact`)
+            return
+        }
         const data = JSON.stringify({
             medicineName: medicineName,
             noOfPills: parseInt(noOfPills),
@@ -48,13 +61,22 @@ export const PlanPage = () => {
             userID: user?.sub,
             modeOfContact: modeOfContact,
         });
-        PostData(data,'plans')
+        try{
+            PostData(data,'plans')
+            setAlertColor('success')
+            setAlertString(`Successfully uploaded data`)
+        }
+        catch(error){
+            setAlertColor('failure')
+            setAlertString(`Error: ${error}`)
+        }
     }
 
     return (
-        <div className='flex-center m-14'>
+        <div className='flex-center flex-col m-14'>
             <Card className='flex-center h-1/2'>
                 <form className="flex flex-col gap-4 w-auto p-4" onSubmit={handleSubmit}>
+                    {CustomAlert(alertString,alertColor)}
                     <h1 className='text-4xl font-bold'>Create Plan</h1>
                     <div className='w-80'>
                         <div className="mb-4 block">
@@ -107,11 +129,11 @@ export const PlanPage = () => {
                         <fieldset>
                             <legend>Choose your mode of contact:</legend>
                             <div>
-                                <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => setModeOfContact(event.target.value)}/>
+                                <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => setModeOfContact(event.target.value)} />
                                 <Label htmlFor="telegram">Telegram</Label>
                             </div>
                             <div>
-                                <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)}/>
+                                <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)} />
                                 <Label htmlFor="whatsapp">Whatsapp</Label>
                             </div>
                         </fieldset>

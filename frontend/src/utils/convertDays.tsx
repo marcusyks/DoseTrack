@@ -11,20 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { Button } from "flowbite-react";
 
-import { Footer } from 'flowbite-react';
-
-export const CustomFooter = () => {
-  return (
-    <Footer container className='pt-12 sticky left-0 bottom-0'>
-      <Footer.Copyright by="DoseTrack™" year={2024} className='flex-center'/>
-      <Footer.LinkGroup className='flex-center md:pt-0 pt-4'>
-        <Footer.Link href="/about">About</Footer.Link>
-        <Footer.Link href="/privacy">Privacy Policy</Footer.Link>
-        <Footer.Link href="/contact">Contact</Footer.Link>
-      </Footer.LinkGroup>
-    </Footer>
-  );
+export const ConvertDays = (props: number) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const digits = props.toString().split('').map(Number);
+    const result = digits.map((digit: number) => daysOfWeek[digit]);
+    const buttons =result.map((element: string) => {
+        return(
+            <Button size="2" className="p-2 m-1 rounded" color="red" >{element}</Button>
+        )
+    })
+    return <div className="flex ">{buttons}</div>
 }
 
-export default CustomFooter
+export default ConvertDays

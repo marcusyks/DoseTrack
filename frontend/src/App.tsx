@@ -8,6 +8,7 @@ import {
 import {DashboardContainer} from './containers/dashboardContainer';
 import LoginContainer from './containers/loginContainer';
 import PlanContainer from './containers/planContainer';
+import UpdatePlanContainer from './containers/updatePlansContainer';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/dashboard" element={<DashboardContainer/>} ></Route>
         <Route path="/login" element={<LoginContainer/>}></Route>
         <Route path="/" element={<DashboardContainer/>}></Route>
-        <Route path="/plan" element={<PlanContainer/>}></Route>
+        <Route path="/createplan" element={<PlanContainer/>}></Route>
+        <Route path="/plans" element={<UpdatePlanContainer/>}></Route>
       </Routes>
   );
 }

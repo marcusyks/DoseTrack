@@ -11,20 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { Alert } from 'flowbite-react';
 
-import { Footer } from 'flowbite-react';
-
-export const CustomFooter = () => {
+export function CustomAlert(props: string, color: string) {
   return (
-    <Footer container className='pt-12 sticky left-0 bottom-0'>
-      <Footer.Copyright by="DoseTrack™" year={2024} className='flex-center'/>
-      <Footer.LinkGroup className='flex-center md:pt-0 pt-4'>
-        <Footer.Link href="/about">About</Footer.Link>
-        <Footer.Link href="/privacy">Privacy Policy</Footer.Link>
-        <Footer.Link href="/contact">Contact</Footer.Link>
-      </Footer.LinkGroup>
-    </Footer>
+    <Alert color={color} className='sticky right-0 top-0'>
+      <span className="font-medium"></span>{props}
+    </Alert>
   );
 }
 
-export default CustomFooter
+export default CustomAlert;
