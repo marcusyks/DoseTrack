@@ -11,15 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { Button } from "flowbite-react";
+import { Badge } from "flowbite-react";
 
 export const ConvertDays = (props: number) => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const digits = props.toString().split('').map(Number);
     const result = digits.map((digit: number) => daysOfWeek[digit]);
     const buttons =result.map((element: string) => {
         return(
-            <Button size="2" className="p-2 m-1 rounded" color="red" >{element}</Button>
+            <Badge key={element} size="m" className="p-2 m-1 rounded" color="info" >{element}</Badge >
         )
     })
     return <div className="flex ">{buttons}</div>

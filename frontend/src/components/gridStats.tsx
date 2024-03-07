@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Plan from "../objects/Plan";
-import { Card } from "flowbite-react";
+import { Card, Button } from "flowbite-react";
 import PlanTable from "./planTable";
 import EditablePlanTable from "./editablePlanTable";
+import { Link } from "react-router-dom";
 
 type GridStatsProps = {
     plans: Plan[],
@@ -24,10 +25,11 @@ export const GridStats = (props: GridStatsProps) =>{
     // if type is typeof PlanTable
     if (window.location.pathname === '/plans'){
         return(
-            <div className="grid grid-col-1 md:grid-cols-3 md:px-28 rounded px-10 gap-8 my-4">
+            <div className="grid grid-col-1 md:grid-cols-3 md:px-28 rounded px-4 gap-8 my-4">
                 <Card className="col-span-1 md:col-span-3">
-                    <span className="text-2xl flex-center">Your Plans</span>
+                    <span className="text-3xl">Your Plans</span>
                     <EditablePlanTable plans={props.plans}></EditablePlanTable>
+                    <Link to="/createplan"><Button className="bg-blue-200 text-black">Create New Plan</Button></Link>
                 </Card>
             </div>
         )

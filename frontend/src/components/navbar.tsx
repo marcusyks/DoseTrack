@@ -29,7 +29,7 @@ export const NavBar = () =>{
     }
 
     return (
-    <Navbar fluid rounded className='bg-blue-200 sticky top-0'>
+    <Navbar fluid rounded className='bg-blue-200 sticky top-0 w-screen'>
       <Navbar.Brand>
         <object data={Logo} type="image/png" className=" h-6 sm:h-9" aria-label="DoseTrack Logo"></object>
       </Navbar.Brand>

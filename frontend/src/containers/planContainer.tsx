@@ -29,7 +29,7 @@ export const PlanContainer = () =>{
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
-                <div className="h-screen">
+                <div className="h-screen md:overflow-y-hidden">
                     <NavBar/>
                     <PlanPage/>
                     <CustomFooter/>

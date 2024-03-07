@@ -11,14 +11,25 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { Alert } from 'flowbite-react';
 
-export function CustomAlert(props: string, color: string) {
-  return (
-    <Alert color={color}>
-      <span className="font-medium"></span>{props}
-    </Alert>
-  );
+export const UpdateData = async (data: string, type: string, id: number) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: data,
+        });
+
+        if (response.ok) {
+          console.log('Data updated successfully');
+        } else {
+          console.error('Failed to updated data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
-export default CustomAlert;
+export default UpdateData

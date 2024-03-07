@@ -39,7 +39,10 @@ export const DashboardPage = () => {
                 console.error("Unable to fetch data: ",error)
             }
         }
-        fetchDataFromAPI()
+        // Only fetch data if userID changes
+        if (userID) {
+            fetchDataFromAPI();
+        }
       },[userID])
 
     return(

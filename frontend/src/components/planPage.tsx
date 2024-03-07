@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { Button, Label, TextInput, Card, Radio, Checkbox} from 'flowbite-react';
+import { Button, Label, TextInput, Radio, Checkbox} from 'flowbite-react';
 import { FormEvent, useState } from 'react';
 import PostData from '../api/plans/postData';
 import FetchUserData from '../auth/fetchUserData';
@@ -73,8 +73,8 @@ export const PlanPage = () => {
     }
 
     return (
-        <div className='flex-center flex-col m-14'>
-            <Card className='flex-center h-1/2'>
+        <div className='flex-center flex-col h-5/6'>
+            <div className='flex-center w-screen'>
                 <form className="flex flex-col gap-4 w-auto p-4" onSubmit={handleSubmit}>
                     {CustomAlert(alertString,alertColor)}
                     <h1 className='text-4xl font-bold'>Create Plan</h1>
@@ -140,7 +140,7 @@ export const PlanPage = () => {
                     </div>
                     <Button className="w-20 mt-4" type="submit">Upload</Button>
                 </form>
-            </Card>
+            </div>
         </div>
       );
 }

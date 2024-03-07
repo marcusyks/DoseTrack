@@ -31,11 +31,14 @@ export const UpdatePlanPage = () => {
                 console.error("Unable to fetch data: ",error)
             }
         }
-        fetchDataFromAPI()
+        // Only fetch data if userID changes
+        if (userID) {
+            fetchDataFromAPI();
+        }
       },[userID])
 
     return(
-        <div className="flex-center h-5/6">
+        <div className="flex justify-center mt-16 h-3/4">
             <div>
                 <GridStats plans={plans}/>
             </div>

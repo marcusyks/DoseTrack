@@ -11,14 +11,24 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { Alert } from 'flowbite-react';
 
-export function CustomAlert(props: string, color: string) {
-  return (
-    <Alert color={color}>
-      <span className="font-medium"></span>{props}
-    </Alert>
-  );
+export const DeleteData = async (type: string, id: number) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          console.log('Data deleted successfully');
+        } else {
+          console.error('Failed to delete data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
-export default CustomAlert;
+export default DeleteData
