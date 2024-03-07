@@ -15,10 +15,10 @@ import GridConfig from "./gridConfig";
 import Content from "../objects/gridContent";
 import GridStats from "./gridStats";
 import Plan from "../objects/Plan";
-import fetchData from "../api/fetchData";
+import FetchData from "../api/fetchData";
 import { useEffect, useState } from "react";
 import Profile from "../auth/profile";
-
+import FetchUserData from "../auth/fetchUserData";
 
 const dashboardOptions: Content[] = [
     {title:"Plans",content:"Update your plans",buttonLink:"Update"},
@@ -28,12 +28,13 @@ const dashboardOptions: Content[] = [
 
 export const DashboardPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
-
+    const userID = FetchUserData()?.sub;
 
     useEffect(()=>{
+        console.log(userID);
         async function fetchDataFromAPI(){
             try{
-                const result : Plan[] = await fetchData('plans')
+                const result : Plan[] = await FetchData('plans',userID)
                 setPlans(result)
             }catch(error){
                 console.error("Unable to fetch data: ",error)

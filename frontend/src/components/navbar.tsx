@@ -20,6 +20,14 @@ import LogoutButton from '../auth/logoutButton';
 export const NavBar = () =>{
     const user = FetchUserData()
 
+    function checkActive(s: string) {
+      const currentPath = window.location.pathname;
+      if(s === currentPath){
+        return true;
+      }
+      return false;
+    }
+
     return (
     <Navbar fluid rounded className='bg-blue-200'>
       <Navbar.Brand>
@@ -45,11 +53,11 @@ export const NavBar = () =>{
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse className='md:-ml-20'>
-        <Navbar.Link className="text-xl" href="/" active>
+        <Navbar.Link className="text-xl" href="/" active={checkActive('/')}>
           Dashboard
         </Navbar.Link>
-        <Navbar.Link className="text-xl" href="/plan">Plan</Navbar.Link>
-        <Navbar.Link className="text-xl" href="/track">Track</Navbar.Link>
+        <Navbar.Link className="text-xl" href="/plan" active={checkActive('/plan')}>Plan</Navbar.Link>
+        <Navbar.Link className="text-xl" href="/track" active={checkActive('/track')}>Track</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

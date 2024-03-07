@@ -12,13 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-type Plan = {
-    id: number;
-    medicineName: string;
-    noOfPills: number;
-    frequency: number;
-    modeOfContact: string;
-    userID: string,
+export const PostData = async (data: string, type: string) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: data,
+        });
+
+        if (response.ok) {
+          console.log('Data uploaded successfully');
+        } else {
+          console.error('Failed to create data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
-export default Plan
+export default PostData

@@ -11,18 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import Plan from "../objects/Plan";
 
-export const fetchData = async (props: string) => {
+export const FetchData = async (props: string, userID: string | undefined) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}/`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.json();
+      const responseData = await response.json();
+      const filteredData = responseData.filter((item: Plan) => item.userID === userID);
+      return filteredData;
     } catch (error) {
       console.error('Error fetching data:', error);
       throw error; // Re-throw the error to handle it in the component if needed
     }
   };
 
-export default fetchData
+export default FetchData

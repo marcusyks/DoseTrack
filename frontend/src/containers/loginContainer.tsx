@@ -17,6 +17,8 @@ import LoginPage from "../components/loginPage";
 import { ErrorBoundary } from "react-error-boundary";
 import FetchUserData from "../auth/fetchUserData";
 import ErrorPage from "../components/errorPage";
+import CustomSpinner from "../components/spinner";
+
 
 export const LoginContainer = () => {
     const isAuthenticated = FetchUserData();
@@ -27,8 +29,12 @@ export const LoginContainer = () => {
     }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            <LoginPage/>
-            <CustomFooter/>
+            {!isAuthenticated ? (
+                <>
+                    <LoginPage/>
+                    <CustomFooter/>
+                </>
+            ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );
 }

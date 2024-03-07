@@ -18,6 +18,7 @@ import NavBar from "../components/navbar"
 import ErrorPage from "../components/errorPage"
 import FetchUserData from "../auth/fetchUserData"
 import {useNavigate } from "react-router-dom"
+import CustomSpinner from "../components/spinner";
 
 export const DashboardContainer = () =>{
     const isAuthenticated = FetchUserData();
@@ -28,9 +29,13 @@ export const DashboardContainer = () =>{
     }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            <NavBar/>
-            <DashboardPage/>
-            <CustomFooter/>
+            {isAuthenticated ? (
+                <>
+                    <NavBar/>
+                    <DashboardPage/>
+                    <CustomFooter/>
+                </>
+            ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );
 }

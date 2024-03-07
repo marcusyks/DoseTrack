@@ -18,19 +18,23 @@ import NavBar from "../components/navbar";
 import CustomFooter from "../components/footer";
 import ErrorPage from "../components/errorPage";
 import PlanPage from "../components/planPage";
+import CustomSpinner from "../components/spinner";
 
 export const PlanContainer = () =>{
-    const isAuthenticated = FetchUserData();
     const navigate = useNavigate();
-
-    if (!isAuthenticated){
-        navigate('/login');
+    const isAuthenticated = FetchUserData();
+    if(!isAuthenticated){
+        navigate('./login')
     }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            <NavBar/>
-            <PlanPage/>
-            <CustomFooter/>
+            {isAuthenticated ? (
+                <>
+                    <NavBar/>
+                    <PlanPage/>
+                    <CustomFooter/>
+                </>
+            ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );
 }

@@ -12,24 +12,61 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import { Button, Label, TextInput, Card, Radio, Checkbox} from 'flowbite-react';
+import { FormEvent, useState } from 'react';
+import PostData from '../api/postData';
+import FetchUserData from '../auth/fetchUserData';
 
 export const PlanPage = () => {
+    const [medicineName, setMedicineName] = useState('');
+    const [noOfPills, setNoOfPills] = useState('');
+    const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
+    const [modeOfContact, setModeOfContact] = useState('');
+    const user = FetchUserData();
+
+    function addDaysOfWeek(e: string){
+        // if e already inside, remove it
+        if(daysOfWeek.includes(e)){
+            const index = daysOfWeek.indexOf(e);
+            daysOfWeek.splice(index,1);
+        }
+        // else add it
+        else{
+            setDaysOfWeek([...daysOfWeek, e]);
+        }
+    }
+
+    function handleSubmit(e: FormEvent){
+        e.preventDefault();
+
+        // Rearranging of daysOfWeek
+        daysOfWeek.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+        const finalDaysOfWeek = daysOfWeek.join("");
+        const data = JSON.stringify({
+            medicineName: medicineName,
+            noOfPills: parseInt(noOfPills),
+            frequency: parseInt(finalDaysOfWeek),
+            userID: user?.sub,
+            modeOfContact: modeOfContact,
+        });
+        PostData(data,'plans')
+    }
+
     return (
-        <div className='flex-center m-20'>
+        <div className='flex-center m-14'>
             <Card className='flex-center h-1/2'>
-                <form className="flex flex-col gap-4 w-auto p-4">
+                <form className="flex flex-col gap-4 w-auto p-4" onSubmit={handleSubmit}>
                     <h1 className='text-4xl font-bold'>Create Plan</h1>
                     <div className='w-80'>
                         <div className="mb-4 block">
                         <Label htmlFor="medicine_name" value="Medicine" className='font-bold'/>
                         </div>
-                        <TextInput id="medicine_name" type="text" required />
+                        <TextInput id="medicine_name" type="text" value={medicineName} onChange={event => setMedicineName(event.target.value)} required />
                     </div>
                     <div className='w-80'>
                         <div className="mb-4 block">
                         <Label htmlFor="no_of_pills" value="No Of Pills" className='font-bold'/>
                         </div>
-                        <TextInput id="no_of_pills" type="number" required />
+                        <TextInput id="no_of_pills" type="number" value={noOfPills} onChange={event => setNoOfPills(event.target.value)} required />
                     </div>
                     <div className='my-4'>
                         <div className="mb-4 block">
@@ -37,45 +74,47 @@ export const PlanPage = () => {
                         </div>
                         <div className='flex gap-2 my-3 block flex-col md:flex-row md:items-center'>
                             <div>
-                                <Checkbox id="monday" className='mr-2'/>
+                                <Checkbox id="monday" className='mr-2' value="1" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="monday">Monday</Label>
                             </div>
                             <div>
-                                <Checkbox id="tuesday" className='mr-2'/>
+                                <Checkbox id="tuesday" className='mr-2' value="2" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="tuesday">Tuesday</Label>
                             </div>
                             <div>
-                                <Checkbox id="wednesday" className='mr-2'/>
+                                <Checkbox id="wednesday" className='mr-2' value="3" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="wednesday">Wednesday</Label>
                             </div>
                             <div>
-                                <Checkbox id="thursday" className='mr-2'/>
+                                <Checkbox id="thursday" className='mr-2' value="4" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="thursday">Thursday</Label>
                             </div>
                             <div>
-                                <Checkbox id="friday" className='mr-2'/>
+                                <Checkbox id="friday" className='mr-2' value="5" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="friday">Friday</Label>
                             </div>
                             <div>
-                                <Checkbox id="saturday" className='mr-2'/>
+                                <Checkbox id="saturday" className='mr-2' value="6" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="saturday">Saturday</Label>
                             </div>
                             <div>
-                                <Checkbox id="sunday" className='mr-2'/>
+                                <Checkbox id="sunday" className='mr-2' value="7" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="sunday">Sunday</Label>
                             </div>
                         </div>
                     </div>
                     <div className="flex gap-2 block mt-2 flex-col md:flex-row">
-                        <Label htmlFor="remind_me" value="Remind me on:" className='font-bold'/>
-                        <div>
-                            <Radio id="telegram" className='mr-2'/>
-                            <Label htmlFor="telegram">Telegram</Label>
-                        </div>
-                        <div>
-                            <Radio id="whatsapp" className='mr-2'/>
-                            <Label htmlFor="whatsapp">Whatsapp</Label>
-                        </div>
+                        <fieldset>
+                            <legend>Choose your mode of contact:</legend>
+                            <div>
+                                <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => setModeOfContact(event.target.value)}/>
+                                <Label htmlFor="telegram">Telegram</Label>
+                            </div>
+                            <div>
+                                <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)}/>
+                                <Label htmlFor="whatsapp">Whatsapp</Label>
+                            </div>
+                        </fieldset>
                     </div>
                     <Button className="w-20 mt-4" type="submit">Upload</Button>
                 </form>

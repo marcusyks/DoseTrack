@@ -11,14 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { Spinner } from 'flowbite-react';
 
-type Plan = {
-    id: number;
-    medicineName: string;
-    noOfPills: number;
-    frequency: number;
-    modeOfContact: string;
-    userID: string,
+export const CustomSpinner = () => {
+    return (
+        <div className='flex-center flex-col h-screen'>
+            <Spinner size="xl" aria-label="Loading..." />
+            <p className='mt-4'>Loading...</p>
+        </div>
+    );
+
 }
 
-export default Plan
+export default CustomSpinner
