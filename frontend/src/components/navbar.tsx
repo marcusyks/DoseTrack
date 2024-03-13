@@ -16,6 +16,7 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import Logo from '../icons/logo512.png'
 import FetchUserData from '../auth/fetchUserData';
 import LogoutButton from '../auth/logoutButton';
+import { Link } from 'react-router-dom';
 
 export const NavBar = () =>{
     const user = FetchUserData()
@@ -29,9 +30,9 @@ export const NavBar = () =>{
     }
 
     return (
-    <Navbar fluid rounded className='bg-blue-200 sticky top-0 w-screen'>
-      <Navbar.Brand>
-        <object data={Logo} type="image/png" className=" h-6 sm:h-9" aria-label="DoseTrack Logo"></object>
+    <Navbar fluid rounded className='bg-blue-200 sticky top-0 right-0 left-0 z-10'>
+      <Navbar.Brand href='/'>
+          <object data={Logo} type="image/png" className="h-8" aria-label="DoseTrack Logo"/>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
@@ -45,10 +46,9 @@ export const NavBar = () =>{
             <span className="block text-sm">{user?.name}</span>
             <span className="block truncate text-sm font-medium">{user?.email}</span>
           </Dropdown.Header>
-          <Dropdown.Item href="/">Dashboard</Dropdown.Item>
           <Dropdown.Item href="/settings">Settings</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>{<LogoutButton/>}</Dropdown.Item>
+          {<LogoutButton/>}
         </Dropdown>
         <Navbar.Toggle />
       </div>
@@ -57,7 +57,7 @@ export const NavBar = () =>{
           Dashboard
         </Navbar.Link>
         <Navbar.Link className="text-xl" href="/createplan" active={checkActive('/createplan')}>Plan</Navbar.Link>
-        <Navbar.Link className="text-xl" href="/track" active={checkActive('/track')}>Track</Navbar.Link>
+        <Navbar.Link className="text-xl" href="/plans" active={checkActive('/plans')}>Manage</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

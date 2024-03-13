@@ -11,8 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import { ErrorBoundary } from "react-error-boundary"
-import DashboardPage from "../components/dashboard"
+import SettingsPage from "../components/settings"
 import CustomFooter from "../components/footer"
 import NavBar from "../components/navbar"
 import ErrorPage from "../components/errorPage"
@@ -20,7 +21,7 @@ import FetchUserData from "../auth/fetchUserData"
 import {useNavigate } from "react-router-dom"
 import CustomSpinner from "../components/spinner";
 
-export const DashboardContainer = () =>{
+export const SettingsContainer = () =>{
     const isAuthenticated = FetchUserData();
     const navigate = useNavigate();
 
@@ -32,10 +33,12 @@ export const DashboardContainer = () =>{
             {isAuthenticated ? (
                 <div className="h-screen font-xl sm:font-3xl">
                     <NavBar/>
-                    <DashboardPage/>
+                    <SettingsPage/>
                     <CustomFooter/>
                 </div>
             ) : (<CustomSpinner/>)}
         </ErrorBoundary>
     );
 }
+
+export default SettingsContainer

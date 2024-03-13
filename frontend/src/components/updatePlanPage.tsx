@@ -19,7 +19,6 @@ import Plan from "../objects/Plan";
 
 export const UpdatePlanPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
-    const [editMode, setEditMode] = useState(false);
     const userID = FetchUserData()?.sub;
 
     useEffect(()=>{
@@ -38,8 +37,8 @@ export const UpdatePlanPage = () => {
       },[userID])
 
     return(
-        <div className="flex justify-center mt-16 h-3/4">
-            <div>
+        <div className="h-screen flex justify-center">
+            <div className="box-margin w-screen">
                 <GridStats plans={plans}/>
             </div>
         </div>

@@ -18,11 +18,9 @@ import LoginButton from "../auth/loginButton";
 
 export const LoginPage = () => {
     return(
-        <div className="flex-center h-screen -mb-24">
-            <Card className="md:scale-100 scale-75">
-                <object className="md:scale-75 scale-50" type="image/png" aria-label="DoseTrack Logo" data={Logo}></object>
-                <LoginButton/>
-            </Card>
+        <div className="flex h-screen flex-center flex-col">
+            <object className="scale-75 md:scale-100" type="image/png" aria-label="DoseTrack Logo" data={Logo}></object>
+            <LoginButton/>
         </div>
     );
 }

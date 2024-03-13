@@ -9,6 +9,7 @@ import {DashboardContainer} from './containers/dashboardContainer';
 import LoginContainer from './containers/loginContainer';
 import PlanContainer from './containers/planContainer';
 import UpdatePlanContainer from './containers/updatePlansContainer';
+import SettingsContainer from './containers/settingsContainer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<DashboardContainer/>}></Route>
         <Route path="/createplan" element={<PlanContainer/>}></Route>
         <Route path="/plans" element={<UpdatePlanContainer/>}></Route>
+        <Route path="/settings" element={<SettingsContainer/>}></Route>
       </Routes>
   );
 }

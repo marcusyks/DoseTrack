@@ -19,10 +19,10 @@ export const ConvertDays = (props: number) => {
     const result = digits.map((digit: number) => daysOfWeek[digit]);
     const buttons =result.map((element: string) => {
         return(
-            <Badge key={element} size="m" className="p-2 m-1 rounded" color="info" >{element}</Badge >
+            <Badge key={element} size="m" className="p-2 m-1 rounded w-20" color="info" >{element}</Badge>
         )
     })
-    return <div className="flex ">{buttons}</div>
+    return <div className="flex flex-col md:flex-row">{buttons}</div>
 }
 
 export default ConvertDays

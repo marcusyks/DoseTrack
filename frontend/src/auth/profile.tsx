@@ -13,8 +13,13 @@
 // limitations under the License.
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Profile = () => {
+const Profile = (given_name: string) => {
   const { user, isAuthenticated, isLoading } = useAuth0();
+  if (given_name === ""){
+    const nickname = given_name;
+  }else{
+    const nickname = user?.given_name;
+  }
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -22,8 +27,8 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <div>
-        <h1>Welcome,  {user?.name}</h1>
+      <div className="text-center text-2xl sm:text-3xl">
+        Welcome,  {given_name}
       </div>
     )
   );

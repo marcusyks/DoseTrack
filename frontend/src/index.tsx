@@ -14,7 +14,9 @@ root.render(
     domain="dev-n2hyefo7c1wli6fo.us.auth0.com"
     clientId="t3eI63vagc8zGmyqEFb1LurMZNSj5LQu"
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: window.location.origin,
+      audience: "https://dev-n2hyefo7c1wli6fo.us.auth0.com/api/v2/",
+      scope:"profile email read:current_user update:current_user_metadata"
     }}
   >
     <BrowserRouter>

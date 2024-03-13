@@ -11,17 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { useAuth0 } from "@auth0/auth0-react";
 
-export const FetchUserData = () => {
-    const { user, isLoading } = useAuth0();
+type Medicine = {
+    medicineName: string,
+    noOfPills: number,
+}
 
-
-    if(isLoading){
-        return undefined;
-    }
-
-    return user;
-};
-
-export default FetchUserData
+export default Medicine

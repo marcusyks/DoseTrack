@@ -19,23 +19,42 @@ import FetchData from "../api/plans/fetchData";
 import { useEffect, useState } from "react";
 import Profile from "../auth/profile";
 import FetchUserData from "../auth/fetchUserData";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const dashboardOptions: Content[] = [
-    {title:"Plans",content:"Update your plans",buttonLink:"Update"},
+    {title:"Plans",content:"Manage your plans",buttonLink:"Manage"},
     {title:"Settings",content:"Edit your profile",buttonLink:"Edit"},
-    {title:"Track",content:"Track your intake",buttonLink:"Check"}
 ]
 
 export const DashboardPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
     const userID = FetchUserData()?.sub;
+    const [nickname,setNickname] = useState("")
+    const {user, getAccessTokenSilently} = useAuth0();
 
     useEffect(()=>{
         async function fetchDataFromAPI(){
             try{
+                //Get user_metadata if any
+                const accessToken = await getAccessTokenSilently({
+                    authorizationParams: {
+                        audience: `${process.env.REACT_APP_AUTH_CLIENT_API}/`,
+                        scope: "read:current_user",
+                    },
+                });
+                const resp = await fetch(`${process.env.REACT_APP_AUTH_CLIENT_API}/users/${user?.sub}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                })
+                const {user_metadata} = await resp.json()
+                setNickname(user_metadata.given_name)
+
+                //Get plans of user
                 const result : Plan[] = await FetchData('plans',userID)
                 setPlans(result)
-            }catch(error){
+            }
+            catch(error){
                 console.error("Unable to fetch data: ",error)
             }
         }
@@ -48,14 +67,14 @@ export const DashboardPage = () => {
     return(
             <div>
                 <div className='section'>
-                    {Profile()}
+                    {Profile(nickname)}
                 </div>
                 <div>
-                    <div className="text-left md:pl-28 pl-10 text-2xl">Statistics</div>
+                    <div className="text-left box-margin text-2xl sm:text-3xl">Statistics</div>
                     <GridStats plans={plans}/>
                 </div>
                 <div className="pt-8">
-                    <div className="text-left pl-28 pb-4 text-2xl">Configurations</div>
+                    <div className="text-left box-margin text-2xl sm:text-3xl">Configurations</div>
                     <GridConfig content={dashboardOptions}/>
                 </div>
             </div>

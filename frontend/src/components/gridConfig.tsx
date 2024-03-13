@@ -22,14 +22,14 @@ type GridConfigProps = {
 export const GridConfig = (props: GridConfigProps) =>{
     const items = props.content.map((map)=>
         <Card key={map.title}>
-            <h1 className="text-2xl flex-center">{map.title}</h1>
-            <h1 className="text-base my-4 flex-center">{map.content}</h1>
+            <h1 className="text-2xl sm:text-3xl flex-center">{map.title}</h1>
+            <h1 className="text-l sm:text-xl flex-center">{map.content}</h1>
             <CustomButton title={map.buttonLink} dest={map.title.toLowerCase()}/>
         </Card>
     );
 
     return(
-        <div className="grid md:grid-cols-3 rounded px-28 gap-8">
+        <div className="grid md:grid-cols-2 rounded gap-8 box-margin">
             {items}
         </div>
     )

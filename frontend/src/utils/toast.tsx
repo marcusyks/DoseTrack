@@ -17,7 +17,7 @@ import { Toast } from "flowbite-react";
 function CustomToast(type: string, content: string){
     if(type==='success'){
         return(
-            <Toast className="bg-green-100 fixed left-0 top-0">
+            <Toast className="bg-green-100 fixed left-0 top-0 z-20">
                 <div className="ml-3 text-sm font-normal">{content}</div>
                 <Toast.Toggle />
             </Toast>
@@ -25,7 +25,7 @@ function CustomToast(type: string, content: string){
     }
     else if(type==='failure'){
         return(
-            <Toast className="bg-red-100 fixed left-0 top-0">
+            <Toast className="bg-red-100 fixed left-0 top-0 z-20">
                 <div className="ml-3 text-sm font-normal">{content}</div>
                 <Toast.Toggle />
             </Toast>

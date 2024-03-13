@@ -16,9 +16,9 @@ import { Footer } from 'flowbite-react';
 
 export const CustomFooter = () => {
   return (
-    <Footer container className='pt-12 sticky left-0 bottom-0'>
+    <Footer container className='relative bottom-0 mt-20 p-4'>
       <Footer.Copyright by="DoseTrack™" year={2024} className='flex-center'/>
-      <Footer.LinkGroup className='flex-center md:pt-0 pt-4'>
+      <Footer.LinkGroup className='flex-center p-2'>
         <Footer.Link href="/about">About</Footer.Link>
         <Footer.Link href="/privacy">Privacy Policy</Footer.Link>
         <Footer.Link href="/contact">Contact</Footer.Link>

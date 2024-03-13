@@ -11,19 +11,27 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { Button, Label, TextInput, Radio, Checkbox} from 'flowbite-react';
+import { Button, Label, TextInput, Radio, Checkbox, Badge, Card} from 'flowbite-react';
 import { FormEvent, useState } from 'react';
 import PostData from '../api/plans/postData';
 import FetchUserData from '../auth/fetchUserData';
+import { HiOutlineX } from 'react-icons/hi'
+import CustomToast from '../utils/toast';
 import CustomAlert from '../utils/alert';
 
+
 export const PlanPage = () => {
+    const [planName, setPlanName] = useState('')
     const [medicineName, setMedicineName] = useState('');
-    const [noOfPills, setNoOfPills] = useState('');
+    const [medicineNames, setMedicineNames] = useState<string[]>([]);
+    const [noOfPill, setNoOfPill] = useState<number>(0);
+    const [pills , setPills] = useState<number[]>([]);
     const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
     const [modeOfContact, setModeOfContact] = useState('');
     const [alertString, setAlertString] = useState('');
     const [alertColor, setAlertColor] = useState('');
+    const [toastColor, setToastColor] = useState('');
+    const [toastString, setToastString] = useState('');
     const user = FetchUserData();
 
     function addDaysOfWeek(e: string){
@@ -36,6 +44,29 @@ export const PlanPage = () => {
         else{
             setDaysOfWeek([...daysOfWeek, e]);
         }
+    }
+
+    const handleKeyPress = () => {
+        if (noOfPill > 0 && medicineName !== "") {
+          // Prevent adding empty medicine names
+          if (medicineName.trim() !== '') {
+            setMedicineNames([...medicineNames, medicineName.trim()]);
+            setMedicineName('');
+          }
+          if (noOfPill !== null){
+            setPills([...pills, noOfPill]);
+            setNoOfPill(0);
+          }
+        }
+        else{
+            setAlertColor('failure')
+            setAlertString('Please enter a valid medicine name/no of pills')
+        }
+      };
+
+    const handleDelete = (name: string) => {
+        const updatedMedicineNames = medicineNames.filter((medicine) => medicine !== name);
+        setMedicineNames(updatedMedicineNames);
     }
 
     function handleSubmit(e: FormEvent){
@@ -54,17 +85,32 @@ export const PlanPage = () => {
             setAlertString(`Choose one mode of contact`)
             return
         }
+        if(pills.length === 0 || medicineNames.length === 0){
+            setAlertColor('failure')
+            setAlertString(`Please add medicine/no of pills`)
+            return
+        }
+
         const data = JSON.stringify({
-            medicineName: medicineName,
-            noOfPills: parseInt(noOfPills),
+            medicineNames: medicineNames.map((element,index) =>({
+                medicineName: element,
+                noOfPills: pills[index],
+            })),
             frequency: parseInt(finalDaysOfWeek),
             userID: user?.sub,
             modeOfContact: modeOfContact,
+            planName: planName,
         });
+
         try{
             PostData(data,'plans')
-            setAlertColor('success')
-            setAlertString(`Successfully uploaded data`)
+            setAlertColor('')
+            setAlertString('')
+            setToastColor('success');
+            setToastString("Successfully updated")
+            setTimeout(()=>{
+                window.location.replace("/")
+              },2000)
         }
         catch(error){
             setAlertColor('failure')
@@ -73,28 +119,46 @@ export const PlanPage = () => {
     }
 
     return (
-        <div className='flex-center flex-col h-5/6'>
-            <div className='flex-center w-screen'>
-                <form className="flex flex-col gap-4 w-auto p-4" onSubmit={handleSubmit}>
-                    {CustomAlert(alertString,alertColor)}
-                    <h1 className='text-4xl font-bold'>Create Plan</h1>
-                    <div className='w-80'>
+        <div className='flex-center flex-col'>
+            <div className='flex-center w-screen mt-8'>
+                <form className="flex flex-col gap-4 m-14" onSubmit={handleSubmit}>
+                    {CustomToast(toastColor, toastString)}
+                    <h1 className='text-4xl font-bold p-2'>Create Plan</h1>
+                    <div className='p-2'>
                         <div className="mb-4 block">
-                        <Label htmlFor="medicine_name" value="Medicine" className='font-bold'/>
+                        <Label htmlFor="plan_name" value="Plan Name" className='font-bold'/>
                         </div>
-                        <TextInput id="medicine_name" type="text" value={medicineName} onChange={event => setMedicineName(event.target.value)} required />
+                        <TextInput id="plan_name" type="text" value={planName} onChange={event => setPlanName(event.target.value)} required />
                     </div>
-                    <div className='w-80'>
-                        <div className="mb-4 block">
-                        <Label htmlFor="no_of_pills" value="No Of Pills" className='font-bold'/>
+                    <Card>
+                        <div>
+                            <div className="block">
+                            <Label htmlFor="medicine_names" value="Medicine" className='font-bold'/>
+                            </div>
+                            <div className='flex flex-wrap gap-2 my-2'>
+                            {medicineNames.map((name, index) => (
+                                <Badge key={index} className='p-1'>
+                                    <div className='inline-block mr-1'>{name}</div>
+                                    <div className='inline-block mr-1'>{pills[index]}</div>
+                                    <HiOutlineX className="inline-block" onClick={()=>handleDelete(name)}/>
+                                </Badge>
+                                ))}
+                            </div>
+                            <TextInput id="medicine_names" type="text" value={medicineName} onChange={event => setMedicineName(event.target.value)}/>
                         </div>
-                        <TextInput id="no_of_pills" type="number" value={noOfPills} onChange={event => setNoOfPills(event.target.value)} required />
-                    </div>
-                    <div className='my-4'>
+                        <div>
+                            <div className="mb-4 block">
+                            <Label htmlFor="no_of_pills" value="No Of Pills" className='font-bold'/>
+                            </div>
+                            <TextInput id="no_of_pills" type="number" value={noOfPill} onChange={event => setNoOfPill(parseInt(event.target.value))}/>
+                        </div>
+                        <Button className="w-20 mt-4" onClick={()=>handleKeyPress()}>Add</Button>
+                    </Card>
+                    <div className='my-4 p-2'>
                         <div className="mb-4 block">
                         <Label htmlFor="day_of_week" value="Days Of Week" className='font-bold'/>
                         </div>
-                        <div className='flex gap-2 my-3 block flex-col md:flex-row md:items-center'>
+                        <div className='flex gap-2 my-3 block flex-wrap'>
                             <div>
                                 <Checkbox id="monday" className='mr-2' value="1" onChange={event => addDaysOfWeek(event.target.value)}/>
                                 <Label htmlFor="monday">Monday</Label>
@@ -125,7 +189,7 @@ export const PlanPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-2 block mt-2 flex-col md:flex-row">
+                    <div className="flex gap-2 block mt-2 flex-col md:flex-row p-2">
                         <fieldset>
                             <legend>Choose your mode of contact:</legend>
                             <div>
@@ -138,7 +202,8 @@ export const PlanPage = () => {
                             </div>
                         </fieldset>
                     </div>
-                    <Button className="w-20 mt-4" type="submit">Upload</Button>
+                    {CustomAlert(alertString,alertColor)}
+                    <Button className="w-20 mt-4 ml-4" type="submit">Upload</Button>
                 </form>
             </div>
         </div>

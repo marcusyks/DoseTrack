@@ -32,7 +32,6 @@ export const LoginContainer = () => {
             {!isAuthenticated ? (
                 <div className="h-screen md:overflow-y-hidden">
                     <LoginPage/>
-                    <CustomFooter/>
                 </div>
             ) : (<CustomSpinner/>)}
         </ErrorBoundary>
