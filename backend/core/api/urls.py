@@ -11,9 +11,6 @@ urlpatterns = [
     path('',include(router.urls))
 ]
 
-# comments
-
-# text
 
 
 

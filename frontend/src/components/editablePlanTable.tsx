@@ -31,8 +31,8 @@ export const EditablePlanTable = (props: PlanTableProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [medicineNames, setMedicineNames] = useState<Medicine[]>([]);
   const [medicineName, setMedicineName] = useState("");
-  const [noOfPill, setNoOfPill] = useState<number>(0);
-  const [pills , setPills] = useState<number[]>([]);
+  const [time, setTime] = useState<string>("");
+  const [noOfPill, setNoOfPill] = useState<string>("");
   const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
   const [modeOfContact, setModeOfContact] = useState('');
   const [elementID, setElementID] = useState(0);
@@ -115,16 +115,22 @@ export const EditablePlanTable = (props: PlanTableProps) => {
         setAlertString(`Choose one mode of contact`)
         return
     }
+    if(medicineNames.length === 0){
+      setAlertColor('failure')
+      setAlertString(`Have at least one medicine!`)
+      return
+    }
     const data = JSON.stringify({
         medicineNames: medicineNames.map(element =>({
           medicineName: element.medicineName,
           noOfPills: element.noOfPills,
+          time: element.time+":00"
         })),
         frequency: parseInt(finalDaysOfWeek),
         userID: user?.sub,
         modeOfContact: modeOfContact,
     });
-
+    console.log(data)
     try{
         UpdateData(data,'plans',elementID);
         setOpenModal(false);
@@ -141,26 +147,28 @@ export const EditablePlanTable = (props: PlanTableProps) => {
     }
   }
 
-  const handleBadgeDelete = (name: string) => {
+  const handleBadgeDelete = (name: string, id: number) => {
+    //Only delete data from database if its added before
+    if(id !== -1){
+      DeleteData('medicines',id)
+    }
     const updatedMedicineNames = medicineNames.filter((medicine) => medicine.medicineName !== name);
     setMedicineNames(updatedMedicineNames);
   }
 
   const handleKeyPress = () => {
-    if (noOfPill > 0 && medicineName !== "") {
+    if (noOfPill !== undefined && parseInt(noOfPill) > 0 && medicineName !== "" && time !== "") {
       // Prevent adding empty medicine names
       if (medicineName.trim() !== '') {
-        setMedicineNames([...medicineNames, {medicineName: medicineName, noOfPills: noOfPill}]);
+        setMedicineNames([...medicineNames, {id: -1, date_created: new Date().toISOString(), time: time, medicineName: medicineName, noOfPills: parseInt(noOfPill)}]);
         setMedicineName('');
-      }
-      if (noOfPill !== null){
-        setPills([...pills, noOfPill]);
-        setNoOfPill(0);
+        setNoOfPill("");
+        setTime("");
       }
     }
     else{
         setAlertColor('failure')
-        setAlertString('Please enter a valid medicine name/no of pills')
+        setAlertString('Please enter a valid medicine name/no of pills/time')
         console.log(alertColor,alertString)
     }
   };
@@ -196,10 +204,10 @@ export const EditablePlanTable = (props: PlanTableProps) => {
                             </div>
                             <div className='flex flex-wrap gap-2 my-2'>
                             {medicineNames.map((element) => (
-                                <Badge key={element.medicineName} className="p-1">
+                                <Badge key={element.id} className="p-1">
                                     <div className='inline-block mr-1'>{element.medicineName}</div>
                                     <div className="inline-block mr-1">{element.noOfPills}</div>
-                                    <HiOutlineX className='inline-block' onClick={()=>handleBadgeDelete(element.medicineName)}/>
+                                    <HiOutlineX className='inline-block' onClick={()=>handleBadgeDelete(element.medicineName, element.id)}/>
                                 </Badge>
                               ))}
                             </div>
@@ -207,9 +215,15 @@ export const EditablePlanTable = (props: PlanTableProps) => {
                         </div>
                         <div className='p-4'>
                             <div className="mb-4 block">
-                            <Label htmlFor="no_of_pills" value="No Of Pills" className='font-bold'/>
+                            <Label htmlFor="no_of_pills" value="No Of Pills/Spoons" className='font-bold'/>
                             </div>
-                            <TextInput id="no_of_pills" type="number" value={noOfPill} onChange={event => setNoOfPill(parseInt(event.target.value))} required />
+                            <TextInput id="no_of_pills" type="number" value={noOfPill} onChange={event => setNoOfPill(event.target.value)} required />
+                        </div>
+                        <div className='p-4'>
+                            <div className="mb-4 block">
+                            <Label htmlFor="time" value="Time" className='font-bold'/>
+                            </div>
+                            <TextInput id="time" type="time" value={time} onChange={event => setTime(event.target.value)} required />
                         </div>
                         <Button className="w-20 mt-4" onClick={()=>handleKeyPress()}>Add</Button>
                         {CustomAlert(alertString,alertColor)}

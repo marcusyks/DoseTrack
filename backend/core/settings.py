@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'plans',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000',env('AUTH_CLIENT_URL')]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

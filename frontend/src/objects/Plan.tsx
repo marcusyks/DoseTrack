@@ -20,6 +20,7 @@ type Plan = {
     modeOfContact: string,
     userID: string,
     planName: string,
+    date_created: Date,
 }
 
 export default Plan

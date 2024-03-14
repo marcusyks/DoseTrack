@@ -13,18 +13,20 @@
 // limitations under the License.
 
 import { FormEvent, useEffect, useState } from "react";
-import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Button, Card, Label, Modal, ModalBody, ModalFooter, ModalHeader, TextInput } from "flowbite-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import CustomAlert from "../utils/alert";
 import CustomToast from "../utils/toast";
+import FetchData from "../api/plans/fetchData";
+import Plan from "../objects/Plan";
+import DeleteData from "../api/plans/deleteData";
 
 //TODO: add phone number verification
 
 const Settings = () => {
     const {user, getAccessTokenSilently} = useAuth0();
 
-    const [nickname, setNickname] = useState<string | undefined>(user?.given_name)
-    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(user?.phone_number)
+    const [nickname, setNickname] = useState<string>('')
     const [alertColor, setAlertColor] = useState('');
     const [alertString, setAlertString] = useState('');
     const [toastColor, setToastColor] = useState('');
@@ -46,8 +48,7 @@ const Settings = () => {
                     }
                 })
                 const {user_metadata} = await resp.json()
-                setNickname(user_metadata.given_name)
-                setPhoneNumber(user_metadata.phone_number)
+                setNickname(user_metadata.nickname)
             }
             catch(error){
                 console.error("Unable to fetch data: ",error)
@@ -64,8 +65,7 @@ const Settings = () => {
         //Checks
         const data = JSON.stringify({
             user_metadata:{
-                given_name: nickname,
-                phone_number: phoneNumber
+                nickname: nickname,
             }
         })
 
@@ -100,7 +100,7 @@ const Settings = () => {
     }
 
     return(
-        <div className="flex-col">
+        <div className="flex-col h-full">
             <form onSubmit={event => HandleSubmit(event)} className='flex-center w-screen mt-8'>
                 {CustomToast(toastColor, toastString)}
                 <Card className="flex flex-col gap-4 m-16">
@@ -109,22 +109,7 @@ const Settings = () => {
                         <Label className="font-bold">Nickname</Label>
                         <TextInput type="text" value={nickname} onChange={event => setNickname(event.target.value)}  ></TextInput>
                     </div>
-                    <Label className="font-bold">Phone Number</Label>
-                    <div className="flex items-center">
-                        <button id="dropdown-phone-button" data-dropdown-toggle="dropdown-phone" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">
-                        +65
-                        </button>
-                        <div className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700">
-                            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-phone-button">
-                            </ul>
-                        </div>
-                        <div className="relative w-full ">
-                            <input type="text" id="phone-input" aria-describedby="helper-text-explanation" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" pattern="[0-9]{4} [0-9]{4}" placeholder="9876 5432" onChange={event => setPhoneNumber(event.target.value)} />
-                        </div>
-                    </div>
-                    <p id="helper-text-explanation" className="mt-2 text-sm text-gray-500 dark:text-gray-400">We will send you an SMS with a verification code.</p>
-                    <button className="text-white w-full bg-blue-300 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Send verification code</button>
-                    <div className="flex-center mt-20">
+                    <div className="flex-center gap-2 mt-4">
                         <Button type="submit">Save</Button>
                     </div>
                     {CustomAlert(alertString, alertColor)}

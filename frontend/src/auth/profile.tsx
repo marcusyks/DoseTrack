@@ -14,21 +14,16 @@
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = (given_name: string) => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  if (given_name === ""){
-    const nickname = given_name;
-  }else{
-    const nickname = user?.given_name;
-  }
+  const { user, isAuthenticated, isLoading } = useAuth0()
 
   if (isLoading) {
     return <div>Loading ...</div>;
   }
 
   return (
-    isAuthenticated && (
+    isAuthenticated &&(
       <div className="text-center text-2xl sm:text-3xl">
-        Welcome,  {given_name}
+        {`Welcome ${given_name}!`}
       </div>
     )
   );

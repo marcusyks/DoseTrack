@@ -16,7 +16,7 @@ root.render(
     authorizationParams={{
       redirect_uri: window.location.origin,
       audience: "https://dev-n2hyefo7c1wli6fo.us.auth0.com/api/v2/",
-      scope:"profile email read:current_user update:current_user_metadata"
+      scope:"profile email read:current_user delete:current_user update:current_user_metadata"
     }}
   >
     <BrowserRouter>

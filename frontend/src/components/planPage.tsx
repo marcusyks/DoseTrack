@@ -18,14 +18,16 @@ import FetchUserData from '../auth/fetchUserData';
 import { HiOutlineX } from 'react-icons/hi'
 import CustomToast from '../utils/toast';
 import CustomAlert from '../utils/alert';
+import Medicine from '../objects/Medicine';
+import DeleteData from '../api/plans/deleteData';
 
 
 export const PlanPage = () => {
     const [planName, setPlanName] = useState('')
     const [medicineName, setMedicineName] = useState('');
-    const [medicineNames, setMedicineNames] = useState<string[]>([]);
-    const [noOfPill, setNoOfPill] = useState<number>(0);
-    const [pills , setPills] = useState<number[]>([]);
+    const [medicineNames, setMedicineNames] = useState<Medicine[]>([]);
+    const [noOfPill, setNoOfPill] = useState<string>('');
+    const [time, setTime] = useState<string>('');
     const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
     const [modeOfContact, setModeOfContact] = useState('');
     const [alertString, setAlertString] = useState('');
@@ -47,15 +49,13 @@ export const PlanPage = () => {
     }
 
     const handleKeyPress = () => {
-        if (noOfPill > 0 && medicineName !== "") {
+        if (noOfPill !== undefined && parseInt(noOfPill) > 0 && medicineName !== "" && time !== undefined) {
           // Prevent adding empty medicine names
           if (medicineName.trim() !== '') {
-            setMedicineNames([...medicineNames, medicineName.trim()]);
+            setMedicineNames([...medicineNames, {id: -1, date_created: new Date().toISOString() ,time: time, medicineName: medicineName, noOfPills: parseInt(noOfPill)}]);
             setMedicineName('');
-          }
-          if (noOfPill !== null){
-            setPills([...pills, noOfPill]);
-            setNoOfPill(0);
+            setNoOfPill('');
+            setTime("");
           }
         }
         else{
@@ -64,8 +64,12 @@ export const PlanPage = () => {
         }
       };
 
-    const handleDelete = (name: string) => {
-        const updatedMedicineNames = medicineNames.filter((medicine) => medicine !== name);
+    const handleDelete = (name: string, id: number) => {
+        //Only delete data from database if its added before
+        if(id !== -1){
+            DeleteData('medicines',id)
+        }
+        const updatedMedicineNames = medicineNames.filter((medicine) => medicine.medicineName !== name);
         setMedicineNames(updatedMedicineNames);
     }
 
@@ -85,7 +89,7 @@ export const PlanPage = () => {
             setAlertString(`Choose one mode of contact`)
             return
         }
-        if(pills.length === 0 || medicineNames.length === 0){
+        if(medicineNames.length === 0){
             setAlertColor('failure')
             setAlertString(`Please add medicine/no of pills`)
             return
@@ -93,14 +97,16 @@ export const PlanPage = () => {
 
         const data = JSON.stringify({
             medicineNames: medicineNames.map((element,index) =>({
-                medicineName: element,
-                noOfPills: pills[index],
+                medicineName: element.medicineName,
+                noOfPills: element.noOfPills,
+                time: element.time+":00"
             })),
             frequency: parseInt(finalDaysOfWeek),
             userID: user?.sub,
             modeOfContact: modeOfContact,
             planName: planName,
         });
+        console.log(data)
 
         try{
             PostData(data,'plans')
@@ -136,11 +142,11 @@ export const PlanPage = () => {
                             <Label htmlFor="medicine_names" value="Medicine" className='font-bold'/>
                             </div>
                             <div className='flex flex-wrap gap-2 my-2'>
-                            {medicineNames.map((name, index) => (
-                                <Badge key={index} className='p-1'>
-                                    <div className='inline-block mr-1'>{name}</div>
-                                    <div className='inline-block mr-1'>{pills[index]}</div>
-                                    <HiOutlineX className="inline-block" onClick={()=>handleDelete(name)}/>
+                            {medicineNames.map(element => (
+                                <Badge key={element.id} className='p-1'>
+                                    <div className='inline-block mr-1'>{element.medicineName}</div>
+                                    <div className='inline-block mr-1'>{element.noOfPills}</div>
+                                    <HiOutlineX className="inline-block" onClick={()=>handleDelete(element.medicineName,element.id)}/>
                                 </Badge>
                                 ))}
                             </div>
@@ -148,9 +154,15 @@ export const PlanPage = () => {
                         </div>
                         <div>
                             <div className="mb-4 block">
-                            <Label htmlFor="no_of_pills" value="No Of Pills" className='font-bold'/>
+                            <Label htmlFor="no_of_pills" value="No Of Pills/Spoons" className='font-bold'/>
                             </div>
-                            <TextInput id="no_of_pills" type="number" value={noOfPill} onChange={event => setNoOfPill(parseInt(event.target.value))}/>
+                            <TextInput id="no_of_pills" type="number" value={noOfPill} onChange={event => setNoOfPill(event.target.value)}/>
+                        </div>
+                        <div>
+                            <div className="mb-4 block">
+                            <Label htmlFor="time" value="Time" className='font-bold'/>
+                            </div>
+                            <TextInput id="time" type="time" value={time} onChange={event => setTime(event.target.value)}/>
                         </div>
                         <Button className="w-20 mt-4" onClick={()=>handleKeyPress()}>Add</Button>
                     </Card>

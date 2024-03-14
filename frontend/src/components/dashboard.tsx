@@ -29,7 +29,7 @@ const dashboardOptions: Content[] = [
 export const DashboardPage = () => {
     const [plans,setPlans] = useState<Plan[]>([])
     const userID = FetchUserData()?.sub;
-    const [nickname,setNickname] = useState("")
+    const [nickname,setNickname] = useState('')
     const {user, getAccessTokenSilently} = useAuth0();
 
     useEffect(()=>{
@@ -46,9 +46,16 @@ export const DashboardPage = () => {
                     headers: {
                         Authorization: 'Bearer ' + accessToken,
                     },
-                })
+                });
+
+                if (!resp.ok) {
+                    throw new Error(`HTTP error! Status: ${resp.status}`);
+                }
+
                 const {user_metadata} = await resp.json()
-                setNickname(user_metadata.given_name)
+                if (user_metadata){
+                    setNickname(user_metadata.nickname)
+                }
 
                 //Get plans of user
                 const result : Plan[] = await FetchData('plans',userID)
