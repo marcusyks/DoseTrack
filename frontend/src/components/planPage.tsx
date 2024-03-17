@@ -114,9 +114,6 @@ export const PlanPage = () => {
             setAlertString('')
             setToastColor('success');
             setToastString("Successfully updated")
-            setTimeout(()=>{
-                window.history.pushState({},"","https://dose-track-nu.vercel.app/")
-              },2000)
         }
         catch(error){
             setAlertColor('failure')
