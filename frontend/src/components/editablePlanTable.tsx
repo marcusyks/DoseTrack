@@ -90,9 +90,6 @@ export const EditablePlanTable = (props: PlanTableProps) => {
       setOpenModal(false);
       setToastString('Deleted successfully')
       setToastType('success')
-      setTimeout(()=>{
-        window.location.reload();
-      },2000)
     }
     catch(error){
         setOpenModal(false);
@@ -136,9 +133,6 @@ export const EditablePlanTable = (props: PlanTableProps) => {
         setOpenModal(false);
         setToastString('Updated successfully')
         setToastType('success')
-        setTimeout(()=>{
-          window.history.pushState({},"","https://dose-track-nu.vercel.app/")
-        },2000)
     }
     catch(error){
         setOpenModal(false);
