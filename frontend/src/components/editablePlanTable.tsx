@@ -137,7 +137,7 @@ export const EditablePlanTable = (props: PlanTableProps) => {
         setToastString('Updated successfully')
         setToastType('success')
         setTimeout(()=>{
-          window.location.reload();
+          window.history.pushState({},"","https://dose-track-nu.vercel.app/")
         },2000)
     }
     catch(error){
