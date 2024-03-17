@@ -19,7 +19,7 @@ root.render(
       scope:"profile email read:current_user delete:current_user update:current_user_metadata"
     }}
   >
-    <BrowserRouter basename="https://dose-track-nu.vercel.app">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </Auth0Provider>
