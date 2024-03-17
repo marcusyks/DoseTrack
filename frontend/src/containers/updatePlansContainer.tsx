@@ -19,10 +19,13 @@ import CustomFooter from "../components/footer";
 import ErrorPage from "../components/errorPage";
 import CustomSpinner from "../components/spinner";
 import UpdatePlanPage from "../components/updatePlanPage";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 export const UpdatePlanContainer = () =>{
     const navigate = useNavigate();
-    const isAuthenticated = FetchUserData();
+    const {user, isLoading, isAuthenticated} = useAuth0();
+
     if(!isAuthenticated){
         navigate('./login')
     }
