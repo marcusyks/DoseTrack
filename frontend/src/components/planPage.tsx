@@ -143,10 +143,15 @@ export const PlanPage = () => {
                             </div>
                             <div className='flex flex-wrap gap-2 my-2'>
                             {medicineNames.map(element => (
-                                <Badge key={element.id} className='p-1'>
-                                    <div className='inline-block mr-1'>{element.medicineName}</div>
-                                    <div className='inline-block mr-1'>{element.noOfPills}</div>
-                                    <HiOutlineX className="inline-block" onClick={()=>handleDelete(element.medicineName,element.id)}/>
+                                <Badge key={element.id} className="p-1 grid">
+                                    <div className='h-full'>
+                                        <HiOutlineX className="scale-125"onClick={()=>handleDelete(element.medicineName, element.id)}/>
+                                    </div>
+                                    <div className='inline-block p-1'>
+                                        <div className='mr-1'>{element.medicineName}</div>
+                                        <div className="mr-1">{element.noOfPills}</div>
+                                        <div className="mr-1">{element.time}</div>
+                                    </div>
                                 </Badge>
                                 ))}
                             </div>
