@@ -11,11 +11,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Auth0Provider
-    domain="dev-n2hyefo7c1wli6fo.us.auth0.com"
-    clientId="t3eI63vagc8zGmyqEFb1LurMZNSj5LQu"
+    domain={process.env.REACT_APP_AUTH_DOMAIN || ""}
+    clientId={process.env.REACT_APP_CLIENT_ID || ""}
     authorizationParams={{
       redirect_uri: window.location.origin,
-      audience: "https://dev-n2hyefo7c1wli6fo.us.auth0.com/api/v2/",
+      audience: process.env.REACT_APP_AUTH_CLIENT_API+"/",
       scope:"profile email read:current_user delete:current_user update:current_user_metadata"
     }}
   >
