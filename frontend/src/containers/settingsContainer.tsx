@@ -25,9 +25,9 @@ export const SettingsContainer = () =>{
     const isAuthenticated = FetchUserData();
     const navigate = useNavigate();
 
-    // if (!isAuthenticated){
-    //     navigate('/login');
-    // }
+    if (!isAuthenticated){
+        navigate('/login');
+    }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (

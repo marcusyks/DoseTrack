@@ -24,9 +24,9 @@ export const DashboardContainer = () =>{
     const isAuthenticated = FetchUserData();
     const navigate = useNavigate();
 
-    // if (isAuthenticated){
-    //     navigate('/');
-    // }
+    if (!isAuthenticated){
+        navigate('/login');
+    }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
