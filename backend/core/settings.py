@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'dosetrackbot',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:3000',env('AUTH_CLIENT_URL')]
+CORS_ALLOWED_ORIGINS = [env('WEBSITE'),env('AUTH_CLIENT_URL'),"http://localhost:3000"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
