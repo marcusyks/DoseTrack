@@ -13,7 +13,6 @@
 // limitations under the License.
 import Plan from '../objects/Plan';
 import { Badge, Table } from 'flowbite-react';
-import ConvertDays from '../utils/convertDays';
 
 type PlanTableProps = {
     plans: Plan[],

@@ -16,7 +16,6 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import Logo from '../icons/logo512.png'
 import FetchUserData from '../auth/fetchUserData';
 import LogoutButton from '../auth/logoutButton';
-import { Link } from 'react-router-dom';
 
 export const NavBar = () =>{
     const user = FetchUserData()

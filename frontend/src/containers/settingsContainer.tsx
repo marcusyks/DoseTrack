@@ -17,18 +17,12 @@ import SettingsPage from "../components/settings"
 import CustomFooter from "../components/footer"
 import NavBar from "../components/navbar"
 import ErrorPage from "../components/errorPage"
-import FetchUserData from "../auth/fetchUserData"
-import {useNavigate } from "react-router-dom"
-import CustomSpinner from "../components/spinner";
 import { useAuth0 } from "@auth0/auth0-react"
+import LoginContainer from "./loginContainer"
 
 export const SettingsContainer = () =>{
-    const {user, isLoading, isAuthenticated} = useAuth0();
-    const navigate = useNavigate();
+    const {isAuthenticated} = useAuth0();
 
-    if (!isAuthenticated){
-        navigate('/login');
-    }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
@@ -37,7 +31,7 @@ export const SettingsContainer = () =>{
                     <SettingsPage/>
                     <CustomFooter/>
                 </div>
-            ) : (<CustomSpinner/>)}
+            ) : (<LoginContainer/>)}
         </ErrorBoundary>
     );
 }
