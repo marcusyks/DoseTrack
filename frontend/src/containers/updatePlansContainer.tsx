@@ -18,19 +18,30 @@ import ErrorPage from "../components/errorPage";
 import UpdatePlanPage from "../components/updatePlanPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginContainer from "./loginContainer";
+import { useEffect, useState } from "react";
+import CustomSpinner from "../components/spinner";
 
 export const UpdatePlanContainer = () =>{
     const {isAuthenticated} = useAuth0();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // After 2000 milliseconds, set loading to false
+        }, 1000);
+
+        return () => clearTimeout(timer); // Cleanup function to clear the timer
+    }, []);
 
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            {isAuthenticated ? (
-                <div className="h-screen md:overflow-y-hidden">
+            {loading ? <CustomSpinner/> : (isAuthenticated ? (
+                <div className="h-screen font-xl sm:font-3xl">
                     <NavBar/>
                     <UpdatePlanPage/>
                     <CustomFooter/>
                 </div>
-            ) : (<LoginContainer/>)}
+            ):<LoginContainer/>)}
         </ErrorBoundary>
     );
 }
