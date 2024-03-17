@@ -21,6 +21,7 @@ import CustomAlert from '../utils/alert';
 import Medicine from '../objects/Medicine';
 import DeleteData from '../api/plans/deleteData';
 
+//Set metadata for telegram id
 
 export const PlanPage = () => {
     const [planName, setPlanName] = useState('')
@@ -207,10 +208,6 @@ export const PlanPage = () => {
                             <div>
                                 <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => setModeOfContact(event.target.value)} />
                                 <Label htmlFor="telegram">Telegram</Label>
-                            </div>
-                            <div>
-                                <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)} />
-                                <Label htmlFor="whatsapp">Whatsapp</Label>
                             </div>
                         </fieldset>
                     </div>

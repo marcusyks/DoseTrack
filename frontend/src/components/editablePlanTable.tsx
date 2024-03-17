@@ -270,10 +270,6 @@ export const EditablePlanTable = (props: PlanTableProps) => {
                                     <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => {setModeOfContact(event.target.value);setContact(true)}} checked={contact}/>
                                     <Label htmlFor="telegram">Telegram</Label>
                                 </div>
-                                <div>
-                                    <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => {setModeOfContact(event.target.value);setContact(false)}} checked={!contact}/>
-                                    <Label htmlFor="whatsapp">Whatsapp</Label>
-                                </div>
                             </fieldset>
                         </div>
                     </Modal.Body>

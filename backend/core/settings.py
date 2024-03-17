@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'plans',
+    'django_tgbot',
+    'dosetrackbot',
 ]
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000',env('AUTH_CLIENT_URL')]
