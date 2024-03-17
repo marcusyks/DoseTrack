@@ -19,9 +19,10 @@ import ErrorPage from "../components/errorPage"
 import FetchUserData from "../auth/fetchUserData"
 import {useNavigate } from "react-router-dom"
 import CustomSpinner from "../components/spinner";
+import { useAuth0 } from "@auth0/auth0-react"
 
 export const DashboardContainer = () =>{
-    const isAuthenticated = FetchUserData();
+    const {user, isLoading, isAuthenticated} = useAuth0();
     const navigate = useNavigate();
 
     if (!isAuthenticated){

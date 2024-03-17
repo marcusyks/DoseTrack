@@ -18,10 +18,11 @@ import { ErrorBoundary } from "react-error-boundary";
 import FetchUserData from "../auth/fetchUserData";
 import ErrorPage from "../components/errorPage";
 import CustomSpinner from "../components/spinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 export const LoginContainer = () => {
-    const isAuthenticated = FetchUserData();
+    const {user, isLoading, isAuthenticated} = useAuth0();
     const navigate = useNavigate();
 
     if (isAuthenticated){
