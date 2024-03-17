@@ -23,9 +23,9 @@ import UpdatePlanPage from "../components/updatePlanPage";
 export const UpdatePlanContainer = () =>{
     const navigate = useNavigate();
     const isAuthenticated = FetchUserData();
-    if(!isAuthenticated){
-        navigate('./login')
-    }
+    // if (isAuthenticated){
+    //     navigate('/');
+    // }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (

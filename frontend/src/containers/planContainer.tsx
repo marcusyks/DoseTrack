@@ -23,9 +23,9 @@ import CustomSpinner from "../components/spinner";
 export const PlanContainer = () =>{
     const navigate = useNavigate();
     const isAuthenticated = FetchUserData();
-    if(!isAuthenticated){
-        navigate('./login')
-    }
+    // if(!isAuthenticated){
+    //     navigate('./login')
+    // }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (

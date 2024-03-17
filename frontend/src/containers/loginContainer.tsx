@@ -24,9 +24,9 @@ export const LoginContainer = () => {
     const isAuthenticated = FetchUserData();
     const navigate = useNavigate();
 
-    if (isAuthenticated){
-        navigate('/');
-    }
+    // if (isAuthenticated){
+    //     navigate('/');
+    // }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {!isAuthenticated ? (
