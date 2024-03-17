@@ -16,18 +16,29 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "../components/errorPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { DashboardContainer } from "./dashboardContainer";
+import { useEffect, useState } from "react";
+import CustomSpinner from "../components/spinner";
 
 
 export const LoginContainer = () => {
     const {isAuthenticated} = useAuth0();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // After 2000 milliseconds, set loading to false
+        }, 1000);
+
+        return () => clearTimeout(timer); // Cleanup function to clear the timer
+    }, []);
 
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            {!isAuthenticated ? (
+            {loading ? <CustomSpinner/> : (!isAuthenticated ? (
                 <div className="h-screen md:overflow-y-hidden">
                     <LoginPage/>
                 </div>
-            ) : (<DashboardContainer/>)}
+            ) : <DashboardContainer/>)}
         </ErrorBoundary>
     );
 }

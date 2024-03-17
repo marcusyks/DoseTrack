@@ -16,21 +16,32 @@ import DashboardPage from "../components/dashboard"
 import CustomFooter from "../components/footer"
 import NavBar from "../components/navbar"
 import ErrorPage from "../components/errorPage"
+import CustomSpinner from "../components/spinner";
 import { useAuth0 } from "@auth0/auth0-react"
 import LoginContainer from "./loginContainer"
+import { useEffect, useState } from "react"
 
 export const DashboardContainer = () =>{
     const {isAuthenticated} = useAuth0();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); // After 2000 milliseconds, set loading to false
+        }, 1000);
+
+        return () => clearTimeout(timer); // Cleanup function to clear the timer
+    }, []);
 
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
-            {isAuthenticated ? (
+            {loading ? <CustomSpinner/> : (isAuthenticated ? (
                 <div className="h-screen font-xl sm:font-3xl">
                     <NavBar/>
                     <DashboardPage/>
                     <CustomFooter/>
                 </div>
-            ) : (<LoginContainer/>)}
+            ):<LoginContainer/>)}
         </ErrorBoundary>
     );
 }
