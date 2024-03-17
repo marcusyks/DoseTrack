@@ -11,22 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import FetchUserData from "../auth/fetchUserData";
-import { useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import NavBar from "../components/navbar";
 import CustomFooter from "../components/footer";
 import ErrorPage from "../components/errorPage";
 import PlanPage from "../components/planPage";
-import CustomSpinner from "../components/spinner";
 import { useAuth0 } from "@auth0/auth0-react";
+import LoginContainer from "./loginContainer";
 
 export const PlanContainer = () =>{
-    const navigate = useNavigate();
-    const {user, isLoading, isAuthenticated} = useAuth0();
-    if(!isAuthenticated){
-        navigate('./login')
-    }
+    const {isAuthenticated} = useAuth0();
+
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
@@ -35,7 +30,7 @@ export const PlanContainer = () =>{
                     <PlanPage/>
                     <CustomFooter/>
                 </div>
-            ) : (<CustomSpinner/>)}
+            ) : (<LoginContainer/>)}
         </ErrorBoundary>
     );
 }

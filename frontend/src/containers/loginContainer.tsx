@@ -11,30 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { useNavigate } from "react-router-dom";
-import CustomFooter from "../components/footer";
 import LoginPage from "../components/loginPage";
 import { ErrorBoundary } from "react-error-boundary";
-import FetchUserData from "../auth/fetchUserData";
 import ErrorPage from "../components/errorPage";
-import CustomSpinner from "../components/spinner";
 import { useAuth0 } from "@auth0/auth0-react";
+import { DashboardContainer } from "./dashboardContainer";
 
 
 export const LoginContainer = () => {
-    const {user, isLoading, isAuthenticated} = useAuth0();
-    const navigate = useNavigate();
+    const {isAuthenticated} = useAuth0();
 
-    if (isAuthenticated){
-        navigate('/');
-    }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {!isAuthenticated ? (
                 <div className="h-screen md:overflow-y-hidden">
                     <LoginPage/>
                 </div>
-            ) : (<CustomSpinner/>)}
+            ) : (<DashboardContainer/>)}
         </ErrorBoundary>
     );
 }

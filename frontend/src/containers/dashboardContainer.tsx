@@ -16,18 +16,12 @@ import DashboardPage from "../components/dashboard"
 import CustomFooter from "../components/footer"
 import NavBar from "../components/navbar"
 import ErrorPage from "../components/errorPage"
-import FetchUserData from "../auth/fetchUserData"
-import {useNavigate } from "react-router-dom"
-import CustomSpinner from "../components/spinner";
 import { useAuth0 } from "@auth0/auth0-react"
+import LoginContainer from "./loginContainer"
 
 export const DashboardContainer = () =>{
-    const {user, isLoading, isAuthenticated} = useAuth0();
-    const navigate = useNavigate();
+    const {isAuthenticated} = useAuth0();
 
-    if (!isAuthenticated){
-        navigate('/login');
-    }
     return(
         <ErrorBoundary fallback={<ErrorPage/>}>
             {isAuthenticated ? (
@@ -36,7 +30,7 @@ export const DashboardContainer = () =>{
                     <DashboardPage/>
                     <CustomFooter/>
                 </div>
-            ) : (<CustomSpinner/>)}
+            ) : (<LoginContainer/>)}
         </ErrorBoundary>
     );
 }
