@@ -13,20 +13,26 @@
 // limitations under the License.
 
 import { FormEvent, useEffect, useState } from "react";
-import { Button, Card, Label, Modal, ModalBody, ModalFooter, ModalHeader, TextInput } from "flowbite-react";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import CustomAlert from "../utils/alert";
 import CustomToast from "../utils/toast";
+import CheckTeleHandleExists from "../api/users/checkTeleHandleExists";
+import User from "../objects/User";
 import FetchData from "../api/plans/fetchData";
 import Plan from "../objects/Plan";
-import DeleteData from "../api/plans/deleteData";
+import UpdateData from "../api/plans/updateData";
+
 
 //TODO: add phone number verification
 
 const Settings = () => {
     const {user, getAccessTokenSilently} = useAuth0();
+    const [userExists, setUserExists] = useState<string>('')
+    const [plans,setPlans] = useState<Plan[]>([])
 
     const [nickname, setNickname] = useState<string>('')
+    const [telegramHandle, setTelegramHandle] = useState<string>('')
     const [alertColor, setAlertColor] = useState('');
     const [alertString, setAlertString] = useState('');
     const [toastColor, setToastColor] = useState('');
@@ -48,7 +54,16 @@ const Settings = () => {
                     }
                 })
                 const {user_metadata} = await resp.json()
-                setNickname(user_metadata.nickname)
+                if(user_metadata.nickname){
+                    setNickname(user_metadata.nickname)
+                }
+                if (user_metadata.telegramHandle){
+                    setTelegramHandle(user_metadata.telegramHandle)
+                }
+
+                //Get plans of user
+                const result : Plan[] = await FetchData('plans',user?.sub)
+                setPlans(result)
             }
             catch(error){
                 console.error("Unable to fetch data: ",error)
@@ -58,14 +73,43 @@ const Settings = () => {
         if (user?.sub) {
             fetchData();
         }
-    },[user?.sub])
+    },[user?.sub, getAccessTokenSilently])
+
+    async function checkUser(type: string, id : string){
+        const user : User = await CheckTeleHandleExists(type,id);
+        setUserExists(user.username);
+    }
+
+    async function updatePlans(plans: Plan[]){
+        const update = plans.map(async plan => {
+            const data = JSON.stringify({
+                medicineNames: plan.medicineNames,
+                frequency: plan.frequency,
+                userID: plan.userID,
+                modeOfContact: plan.modeOfContact,
+                telegramHandle: plan.telegramHandle,
+            });
+            await UpdateData(data,"plans",plan.id)
+        })
+        await Promise.all(update);
+    }
 
     const HandleSubmit = async(e: FormEvent) =>{
         e.preventDefault()
         //Checks
+
+        // If user inputted and user does not exist
+        checkUser("users",telegramHandle)
+        if ((userExists === undefined || "") && telegramHandle !== ""){
+            setAlertColor('failure')
+            setAlertString(`You have not started the telegram bot with @${telegramHandle}!`)
+            return
+        }
+
         const data = JSON.stringify({
             user_metadata:{
                 nickname: nickname,
+                telegramHandle: telegramHandle
             }
         })
 
@@ -84,6 +128,10 @@ const Settings = () => {
                 },
                 body: data,
             })
+
+            //Update all plans accordingly
+            updatePlans(plans);
+
 
             setAlertColor('')
             setAlertString('')
@@ -107,6 +155,11 @@ const Settings = () => {
                         <Label className="font-bold">Nickname</Label>
                         <TextInput type="text" value={nickname} onChange={event => setNickname(event.target.value)}  ></TextInput>
                     </div>
+                    <div className="w-80">
+                        <Label className="font-bold">Telegram Handle</Label>
+                        <TextInput type="text" value={telegramHandle} placeholder="user123" onChange={event => setTelegramHandle(event.target.value)} required></TextInput>
+                    </div>
+                    <div className="text-red-400 text-s">CAUTION: This would change all plans</div>
                     <div className="flex-center gap-2 mt-4">
                         <Button type="submit">Save</Button>
                     </div>

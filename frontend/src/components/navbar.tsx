@@ -55,21 +55,21 @@ export const NavBar = () =>{
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse className='md:-ml-20'>
-        <Link to="/">
-          <Navbar.Link className="text-xl" active={checkActive('/')}>
+      <Link to="/">
+        <Navbar.Link className="text-xl" active={checkActive('/')}>
           Dashboard
-          </Navbar.Link>
-        </Link>
-        <Link to="/createplan">
-          <Navbar.Link className="text-xl" active={checkActive('/createplan')}>
-            Plan
-          </Navbar.Link>
-        </Link>
-        <Link to="/plans">
-          <Navbar.Link className="text-xl" active={checkActive('/plans')}>
-            Manage
-          </Navbar.Link>
-        </Link>
+        </Navbar.Link>
+      </Link>
+      <Link to="/createplan">
+        <Navbar.Link className="text-xl" active={checkActive('/createplan')}>
+          Plan
+        </Navbar.Link>
+      </Link>
+      <Link to="/plans">
+        <Navbar.Link className="text-xl" active={checkActive('/plans')}>
+          Manage
+        </Navbar.Link>
+      </Link>
       </Navbar.Collapse>
     </Navbar>
   );

@@ -36,6 +36,7 @@ export const EditablePlanTable = (props: PlanTableProps) => {
   const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
   const [modeOfContact, setModeOfContact] = useState('');
   const [elementID, setElementID] = useState(0);
+  const [telegramHandle, setTelegramHandle] = useState<string>('')
 
   const [checkboxes, setCheckboxes] = useState<boolean[]>([]);
   const [contact, setContact] = useState<boolean>()
@@ -82,6 +83,7 @@ export const EditablePlanTable = (props: PlanTableProps) => {
     setContact(element.modeOfContact==="telegram"?true:false)
     setModeOfContact(element.modeOfContact);
     setElementID(element.id);
+    setTelegramHandle(element.telegramHandle)
   }
 
   function handleDelete(){
@@ -121,13 +123,13 @@ export const EditablePlanTable = (props: PlanTableProps) => {
         medicineNames: medicineNames.map(element =>({
           medicineName: element.medicineName,
           noOfPills: element.noOfPills,
-          time: element.time+":00"
+          time: element.time,
         })),
         frequency: parseInt(finalDaysOfWeek),
         userID: user?.sub,
         modeOfContact: modeOfContact,
     });
-    console.log(data)
+
     try{
         UpdateData(data,'plans',elementID);
         setOpenModal(false);
@@ -269,9 +271,8 @@ export const EditablePlanTable = (props: PlanTableProps) => {
                                     <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => {setModeOfContact(event.target.value);setContact(true)}} checked={contact}/>
                                     <Label htmlFor="telegram">Telegram</Label>
                                 </div>
-                                <div>
-                                    <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => {setModeOfContact(event.target.value);setContact(false)}} checked={!contact}/>
-                                    <Label htmlFor="whatsapp">Whatsapp</Label>
+                                <div className='p-2 rounded bg-gray-100'>
+                                    {element.telegramHandle}
                                 </div>
                             </fieldset>
                         </div>

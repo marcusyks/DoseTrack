@@ -14,13 +14,16 @@
 import { Button, Label, TextInput, Radio, Checkbox, Badge, Card} from 'flowbite-react';
 import { FormEvent, useState } from 'react';
 import PostData from '../api/plans/postData';
-import FetchUserData from '../auth/fetchUserData';
 import { HiOutlineX } from 'react-icons/hi'
 import CustomToast from '../utils/toast';
 import CustomAlert from '../utils/alert';
 import Medicine from '../objects/Medicine';
 import DeleteData from '../api/plans/deleteData';
-
+import { useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import CheckTeleHandleExists from '../api/users/checkTeleHandleExists';
+import User from '../objects/User';
+//Set metadata for telegram id
 
 export const PlanPage = () => {
     const [planName, setPlanName] = useState('')
@@ -34,7 +37,46 @@ export const PlanPage = () => {
     const [alertColor, setAlertColor] = useState('');
     const [toastColor, setToastColor] = useState('');
     const [toastString, setToastString] = useState('');
-    const user = FetchUserData();
+    const [telegramHandle, setTelegramHandle] = useState<string>('')
+    const [newTelegramHandle, setNewTelegramHandle] = useState<string>('')
+
+    const [userExists, setUserExists] = useState<string>('')
+    const [nickname, setNickname] = useState<string>('')
+
+    const {user, getAccessTokenSilently} = useAuth0();
+
+    useEffect(()=>{
+        async function fetchData(){
+            try{
+                //Get user_metadata if any
+                const accessToken = await getAccessTokenSilently({
+                    authorizationParams: {
+                        audience: `${process.env.REACT_APP_AUTH_CLIENT_API}/`,
+                        scope: "read:current_user",
+                    },
+                });
+                const resp = await fetch(`${process.env.REACT_APP_AUTH_CLIENT_API}/users/${user?.sub}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    }
+                })
+                const {user_metadata} = await resp.json();
+                if (user_metadata.telegramHandle){
+                    setTelegramHandle(user_metadata.telegramHandle)
+                }
+                if (user_metadata.nickname){
+                    setNickname(user_metadata.nickname)
+                }
+            }
+            catch(error){
+                console.error("Unable to fetch data: ",error)
+            }
+        }
+        // Only fetch data if userID changes
+        if (user?.sub) {
+            fetchData();
+        }
+    },[user?.sub, getAccessTokenSilently])
 
     function addDaysOfWeek(e: string){
         // if e already inside, remove it
@@ -64,6 +106,35 @@ export const PlanPage = () => {
         }
       };
 
+    async function updateMetadata(){
+        try{
+            //Get user_metadata if any
+            const accessToken = await getAccessTokenSilently({
+                authorizationParams: {
+                    audience: `${process.env.REACT_APP_AUTH_CLIENT_API}/`,
+                    scope: "update:current_user",
+                },
+            });
+            const data = JSON.stringify({
+                user_metadata:{
+                    nickname: nickname,
+                    telegramHandle: newTelegramHandle,
+                }
+            })
+            await fetch(`${process.env.REACT_APP_AUTH_CLIENT_API}/users/${user?.sub}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                    'content-type': 'application/json'
+                },
+                body: data,
+            })
+        }
+        catch(error){
+            console.error("Unable to fetch data: ",error)
+        }
+    }
+
     const handleDelete = (name: string, id: number) => {
         //Only delete data from database if its added before
         if(id !== -1){
@@ -71,6 +142,11 @@ export const PlanPage = () => {
         }
         const updatedMedicineNames = medicineNames.filter((medicine) => medicine.medicineName !== name);
         setMedicineNames(updatedMedicineNames);
+    }
+
+    async function checkUser(type: string, id : string){
+        const user : User = await CheckTeleHandleExists(type,id);
+        setUserExists(user.username);
     }
 
     function handleSubmit(e: FormEvent){
@@ -95,18 +171,40 @@ export const PlanPage = () => {
             return
         }
 
+        // Does not have telegram handle and did not put new one
+        if (telegramHandle === "" && newTelegramHandle === ""){
+            setAlertColor('failure')
+            setAlertString(`You did not add a telegram handle`)
+            return
+        }
+
+        // If user inputted and user does not exist
+        checkUser("users",newTelegramHandle)
+        if ((userExists === undefined || "") && newTelegramHandle !== ""){
+            setAlertColor('failure')
+            setAlertString(`You have not started the telegram bot with @${newTelegramHandle}!`)
+            return
+        }
+
+        //Update auth side as well ONLY if first time
+        if(telegramHandle === ""){
+            updateMetadata();
+        } else{
+            setNewTelegramHandle(telegramHandle); //if subsequent, use old telegram id
+        }
+
         const data = JSON.stringify({
             medicineNames: medicineNames.map((element,index) =>({
                 medicineName: element.medicineName,
                 noOfPills: element.noOfPills,
-                time: element.time+":00"
+                time: element.time,
             })),
             frequency: parseInt(finalDaysOfWeek),
             userID: user?.sub,
             modeOfContact: modeOfContact,
             planName: planName,
+            telegramHandle: newTelegramHandle,
         });
-        console.log(data)
 
         try{
             PostData(data,'plans')
@@ -209,6 +307,17 @@ export const PlanPage = () => {
                             <div>
                                 <Radio id="telegram" name="modeOfContact" className='mr-2' value="telegram" onChange={event => setModeOfContact(event.target.value)} />
                                 <Label htmlFor="telegram">Telegram</Label>
+                                {modeOfContact ?
+                                    (<div>
+                                        {telegramHandle ? (<div><div className='p-2 rounded bg-gray-100'>{telegramHandle}</div><div className='text-s mt-2 text-red-400'>Remember to start the DoseTrack bot on Telegram first!</div></div>) :
+                                        (<div className="w-80 mt-4">
+                                            <Label className="font-bold">Add Telegram Handle</Label>
+                                            <TextInput type="text" value={newTelegramHandle} placeholder="user123" onChange={event => setNewTelegramHandle(event.target.value)} required></TextInput>
+                                            <div className='text-s mt-2 text-red-400'>Remember to start the DoseTrack bot on Telegram first!</div>
+                                        </div>)}
+                                    </div>):
+                                    (<div></div>)
+                                }
                             </div>
                             <div>
                                 <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)} />
