@@ -40,6 +40,4 @@
 /backend/*.bak
 
 #Telegram bot
-/tele/.env
-
 /venv
