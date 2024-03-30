@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
 
+
 class Medicine(models.Model):
     id = models.AutoField(primary_key=True)
     medicineName = models.TextField()
@@ -20,6 +21,8 @@ class Plan(models.Model):
     userID = models.TextField()
     planName = models.TextField(default="")
     date_created = models.DateField(default=timezone.now)
+    telegramHandle = models.CharField(max_length = 100, default = "")
+    activated = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Plan ID: {self.id}"

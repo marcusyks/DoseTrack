@@ -1,5 +1,6 @@
-from . import credentials
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
-
-bot_token = credentials.BOT_TOKEN
-app_name = credentials.APP_NAME
+bot_token = env('BOT_TOKEN')
+app_name = env('APP_NAME')

@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import environ
+from datetime import timedelta
 import secrets
 import os
 from pathlib import Path
 # import dj_database_url
+
+import environ
 env = environ.Env()
 environ.Env.read_env()
 
@@ -35,8 +37,7 @@ SECRET_KEY = os.environ.get(
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if not IS_HEROKU_APP:
-    DEBUG = True
+DEBUG = True
 
 if IS_HEROKU_APP:
     ALLOWED_HOSTS=["*"]
@@ -45,6 +46,18 @@ else:
 
 
 # Application definition
+
+# Celery Configuration Options
+CELERY_BROKER_URL="redis://127.0.0.1:6379"
+CELERY_TIMEZONE = "Asia/Singapore"
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_BEAT_SCHEDULE = {
+    'plans': {
+        'task': 'plans.tasks.check_reminders',
+        'schedule': timedelta(minutes=1),  # Check for reminders every minute
+    },
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',

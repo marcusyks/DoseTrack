@@ -28,7 +28,6 @@ class TelegramBot(AbstractTelegramBot):
 def import_processors():
     from . import processors
 
-
 state_manager = StateManager()
 bot = TelegramBot(bot_token, state_manager)
 import_processors()
