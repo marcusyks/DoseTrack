@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-CORS_ALLOWED_ORIGINS = [env('WEBSITE'),env('AUTH_CLIENT_URL'),env('https://')]
+CORS_ALLOWED_ORIGINS = [env('WEBSITE'),env('AUTH_CLIENT_URL')]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
