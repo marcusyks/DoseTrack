@@ -1,14 +1,20 @@
 from rest_framework.serializers import ModelSerializer
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from ..models import Plan
 from ..models import Medicine
 
 class MedicineSerializer(ModelSerializer):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     class Meta:
         model = Medicine
         fields = ['id', 'medicineName', 'noOfPills','time']
 
 class PlanSerializer(ModelSerializer):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     medicineNames = MedicineSerializer(many=True)
 
     class Meta:
