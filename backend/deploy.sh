@@ -1,8 +1,10 @@
-# !/bin/bash
+#!/bin/bash
 
 python3.9 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+#
 
 # Test redis
 sudo apt-get update
