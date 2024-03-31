@@ -9,8 +9,5 @@
             "src": "/(.*)",
             "dest": "core/wsgi.py"
         }
-    ],
-    "scripts": {
-        "build": "./deploy.sh"
-    }
+    ]
 }
