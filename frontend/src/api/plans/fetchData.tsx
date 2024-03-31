@@ -23,7 +23,7 @@ export const FetchData = async (props: string, userID: string | undefined) => {
       const filteredData = responseData.filter((item: Plan) => item.userID === userID);
       return filteredData;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.log('Error fetching data');
       throw error; // Re-throw the error to handle it in the component if needed
     }
   };

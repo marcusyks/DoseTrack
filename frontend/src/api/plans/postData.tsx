@@ -25,10 +25,10 @@ export const PostData = async (data: string, type: string) => {
         if (response.ok) {
           console.log('Data uploaded successfully');
         } else {
-          console.error('Failed to create data');
+          console.log('Failed to create data');
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.log('Error:');
     }
 }
 

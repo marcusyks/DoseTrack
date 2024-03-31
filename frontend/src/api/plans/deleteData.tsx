@@ -23,10 +23,10 @@ export const DeleteData = async (type: string, id: number) => {
         if (response.ok) {
           console.log('Data deleted successfully');
         } else {
-          console.error('Failed to delete data');
+          console.log('Failed to delete data');
         }
       } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
     }
 }
 

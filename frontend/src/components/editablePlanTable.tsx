@@ -165,7 +165,6 @@ export const EditablePlanTable = (props: PlanTableProps) => {
     else{
         setAlertColor('failure')
         setAlertString('Please enter a valid medicine name/no of pills/time')
-        console.log(alertColor,alertString)
     }
   };
 

@@ -139,7 +139,6 @@ const Settings = () => {
             setToastString("Successfully updated")
 
         } catch (error) {
-            console.log(error);
             setAlertColor('failure')
             setAlertString('Something happened! Try again..')
         }
