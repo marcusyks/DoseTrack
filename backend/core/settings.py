@@ -63,6 +63,15 @@ INSTALLED_APPS = [
     'dosetrackbot',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
 CORS_ALLOWED_ORIGINS = [env('WEBSITE'),env('AUTH_CLIENT_URL'),env('https://')]
 
 MIDDLEWARE = [
