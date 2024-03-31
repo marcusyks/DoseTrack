@@ -25,10 +25,10 @@ export const UpdateData = async (data: string, type: string, id: number) => {
         if (response.ok) {
           console.log('Data updated successfully');
         } else {
-          console.error('Failed to updated data');
+          console.log('Failed to updated data');
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.log('Error');
     }
 }
 
