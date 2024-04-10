@@ -15,19 +15,7 @@ import Plan from "../../objects/Plan";
 
 export const FetchData = async (props: string, userID: string | undefined) => {
     try {
-      const csrftoken = getCookie('csrftoken'); // Retrieve CSRF token from cookies
-      if (!csrftoken) {
-        console.error('CSRF token is missing');
-        return;
-      }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}/`, {
-        method: 'GET',
-        credentials: 'include', // Include credentials (cookies) in the request
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken, // Include CSRF token in the request headers
-        },
-      });
+      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}/`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -40,22 +28,4 @@ export const FetchData = async (props: string, userID: string | undefined) => {
     }
   };
 
-  // Function to retrieve CSRF token from cookies
-function getCookie(name: string) {
-let cookieValue = null;
-if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Search for CSRF token cookie
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-        }
-    }
-}
-return cookieValue;
-}
-
 export default FetchData
-

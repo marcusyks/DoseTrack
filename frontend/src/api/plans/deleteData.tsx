@@ -12,44 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 export const DeleteData = async (type: string, id: number) => {
-  try {
-      const csrftoken = getCookie('csrftoken'); // Retrieve CSRF token from cookies
-      if (!csrftoken) {
-        console.error('CSRF token is missing');
-        return;
-      }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
-        method: 'DELETE',
-        credentials: 'include', // Include credentials (cookies) in the request
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrftoken, // Include CSRF token in the request headers
-        },
-      });
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (response.ok) {
-        console.log('Data deleted successfully');
-      } else {
-        console.log('Failed to delete data');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-  }
+        if (response.ok) {
+          console.log('Data deleted successfully');
+        } else {
+          console.log('Failed to delete data');
+        }
+      } catch (error) {
+        // console.error('Error:', error);
+    }
 }
 
-// Function to retrieve CSRF token from cookies
-function getCookie(name: string) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Search for CSRF token cookie
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}
+export default DeleteData

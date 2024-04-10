@@ -14,17 +14,10 @@
 
 export const UpdateData = async (data: string, type: string, id: number) => {
     try {
-        const csrftoken = getCookie('csrftoken'); // Retrieve CSRF token from cookies
-        if (!csrftoken) {
-          console.error('CSRF token is missing');
-          return;
-        }
         const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
           method: 'PATCH',
-          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken, // Include CSRF token in the request headers
           },
           body: data,
         });
@@ -37,23 +30,6 @@ export const UpdateData = async (data: string, type: string, id: number) => {
       } catch (error) {
         console.log('Error');
     }
-}
-
-// Function to retrieve CSRF token from cookies
-function getCookie(name: string) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Search for CSRF token cookie
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
 }
 
 export default UpdateData
