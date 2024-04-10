@@ -15,7 +15,10 @@ import Plan from "../../objects/Plan";
 
 export const FetchData = async (props: string, userID: string | undefined) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}/`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}${props}/`,{
+        method: 'GET',
+        credentials: 'include'
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

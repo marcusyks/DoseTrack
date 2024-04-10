@@ -1,15 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import status
-from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication
 from ..models import Plan, Medicine
 from .serializers import PlanSerializer, MedicineSerializer
-from rest_framework.authentication import SessionAuthentication
-
 
 class PlanViewSet(ModelViewSet):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+    authentication_classes = [SessionAuthentication]  # Add SessionAuthentication for session-based authentication
 
 class MedicineViewSet(ModelViewSet):
     queryset = Medicine.objects.all()
     serializer_class = MedicineSerializer
+    authentication_classes = [SessionAuthentication]  # Add SessionAuthentication for session-based authentication

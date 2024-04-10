@@ -16,6 +16,7 @@ export const UpdateData = async (data: string, type: string, id: number) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
           method: 'PATCH',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
