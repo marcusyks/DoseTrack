@@ -4,9 +4,12 @@ env = environ.Env()
 environ.Env.read_env()
 
 
-def fetch_data_from_plans(telegramHandle,activation):
+def fetch_data_from_plans(telegramHandle, activation):
     url = env('API_ADDRESS')  # Fetch all plans
-    response = requests.get(url)
+    session = requests.Session()
+    login_url = env('API_LOGIN') # Your login endpoint
+    session.post(login_url, data={'username': env('API_USERNAME'), 'password': env('API_PASSWORD')})  # Login to obtain session cookie
+    response = session.get(url)
     if response.status_code == 200:
         plans = response.json()
         # Filter data
@@ -14,6 +17,9 @@ def fetch_data_from_plans(telegramHandle,activation):
         for plan in plans: #Get plans that match telehandle and are of activation condition
             if plan.get('telegramHandle') == telegramHandle and plan.get('activated') == activation:
                 matching_plans.append(plan)
+        # Logout after fetching data
+        logout_url = env('API_LOGOUT')  # Your logout endpoint
+        session.get(logout_url)
         return matching_plans
     else:
         # Handle error
@@ -21,17 +27,23 @@ def fetch_data_from_plans(telegramHandle,activation):
         return None
 
 def update_plans(plans, activation):
+    session = requests.Session()
+    login_url = env('API_LOGIN') # Your login endpoint
+    session.post(login_url, data={'username': env('API_USERNAME'), 'password': env('API_PASSWORD')})  # Login to obtain session cookie
     for plan in plans:
         plan_id = plan.get('id')
-        plan_url = env('API_ADDRESS')+f'{plan_id}/'
+        plan_url = f"{env('API_ADDRESS')}/{plan_id}/"
         plan['activated'] = activation
-        response = requests.put(plan_url, json=plan)
+        response = session.put(plan_url, json=plan)
         if response.status_code == 200:
             pass
         else:
             # Handle error
             print("Error updating data:", response.status_code)
             return None
+    # Logout after fetching data
+    logout_url = env('API_LOGOUT')  # Your logout endpoint
+    session.get(logout_url)
 
 def medicineFormatter(medicines):
     resultString = ""
