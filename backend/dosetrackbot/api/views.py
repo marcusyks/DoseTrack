@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
@@ -33,3 +34,13 @@ class TelegramStateViewSet(ModelViewSet):
     serializer_class = TelegramStateSerializer
     permission_classes = [IsAuthenticated]
 >>>>>>> b2c07b6 (MVP v1)
+=======
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+from ..models import TelegramState
+from .serializers import TelegramStateSerializer
+
+class TelegramStateViewSet(ModelViewSet):
+    queryset = TelegramState.objects.all()
+    serializer_class = TelegramStateSerializer
+>>>>>>> fe6c92b (MVP)
