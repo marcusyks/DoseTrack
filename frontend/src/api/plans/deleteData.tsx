@@ -15,6 +15,7 @@ export const DeleteData = async (type: string, id: number) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}${type}/${id}/`, {
           method: 'DELETE',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
