@@ -27,14 +27,14 @@
 
 # BACKEND
 
-/backend/core/.env
-
 # Django #
 /backend/*.log
 /backend/*.pot
 /backend/*.pyc
 /backend/__pycache__
 /backend/media
+/backend/.env
+/backend/venv
 
 # Backup files #
 /backend/*.bak
