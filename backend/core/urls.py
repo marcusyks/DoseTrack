@@ -19,7 +19,6 @@ from django.urls import path, include
 from dosetrackbot import urls as dosetrackbot_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/', include('core.api.urls')),
     path('dosetrackbot/', include(dosetrackbot_urls)),
 ]
