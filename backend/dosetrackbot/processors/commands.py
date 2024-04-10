@@ -46,7 +46,7 @@ def command(bot: TelegramBot, update: Update, state: TelegramState):
         # Stops the state
         elif text == '/stop':
             bot.sendMessage(chat_id, 'Stopping the bot now...')
-            state.set_name('temp')
+            state.set_name('stopped')
             #Update activated plans to be not activated
             update_plans(fetch_data_from_plans(update.get_user().username,True),False)
 
