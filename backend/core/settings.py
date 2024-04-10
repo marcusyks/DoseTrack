@@ -14,11 +14,14 @@ from datetime import timedelta
 import secrets
 import os
 from pathlib import Path
-# import dj_database_url
+
 
 import environ
 env = environ.Env()
 environ.Env.read_env()
+
+APP_NAME= os.environ.get("FLY_APP_NAME")
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,12 +32,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    default=secrets.token_urlsafe(nbytes=64),
-)
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS=['.vercel.app']
+ALLOWED_HOSTS=[f"{APP_NAME}.fly.dev"]
 
 # Application definition
 
@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-CORS_ALLOWED_ORIGINS = [env('WEBSITE'),env('AUTH_CLIENT_URL')]
+CORS_ALLOWED_ORIGINS = [env('WEBSITE'), env('AUTH_CLIENT_URL')]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
