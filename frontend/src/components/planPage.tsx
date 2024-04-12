@@ -171,6 +171,9 @@ export const PlanPage = () => {
             return
         }
 
+        console.log(telegramHandle)
+        console.log(newTelegramHandle)
+
         // Does not have telegram handle and did not put new one
         if (telegramHandle === "" && newTelegramHandle === ""){
             setAlertColor('failure')
@@ -189,34 +192,60 @@ export const PlanPage = () => {
         //Update auth side as well ONLY if first time
         if(telegramHandle === ""){
             updateMetadata();
-        } else{
-            setNewTelegramHandle(telegramHandle); //if subsequent, use old telegram id
+            const data = JSON.stringify({
+                medicineNames: medicineNames.map((element,index) =>({
+                    medicineName: element.medicineName,
+                    noOfPills: element.noOfPills,
+                    time: element.time,
+                })),
+                frequency: parseInt(finalDaysOfWeek),
+                userID: user?.sub,
+                modeOfContact: modeOfContact,
+                planName: planName,
+                telegramHandle: newTelegramHandle,
+            });
+
+            try{
+                PostData(data,'plans')
+                setAlertColor('')
+                setAlertString('')
+                setToastColor('success');
+                setToastString("Successfully updated")
+            }
+            catch(error){
+                setAlertColor('failure')
+                setAlertString(`Error: ${error}`)
+            }
+
+        } else{//if subsequent, use old telegram id
+
+            const data = JSON.stringify({
+                medicineNames: medicineNames.map((element,index) =>({
+                    medicineName: element.medicineName,
+                    noOfPills: element.noOfPills,
+                    time: element.time,
+                })),
+                frequency: parseInt(finalDaysOfWeek),
+                userID: user?.sub,
+                modeOfContact: modeOfContact,
+                planName: planName,
+                telegramHandle: telegramHandle,
+            });
+
+
+            try{
+                PostData(data,'plans')
+                setAlertColor('')
+                setAlertString('')
+                setToastColor('success');
+                setToastString("Successfully updated")
+            }
+            catch(error){
+                setAlertColor('failure')
+                setAlertString(`Error: ${error}`)
+            }
         }
 
-        const data = JSON.stringify({
-            medicineNames: medicineNames.map((element,index) =>({
-                medicineName: element.medicineName,
-                noOfPills: element.noOfPills,
-                time: element.time,
-            })),
-            frequency: parseInt(finalDaysOfWeek),
-            userID: user?.sub,
-            modeOfContact: modeOfContact,
-            planName: planName,
-            telegramHandle: newTelegramHandle,
-        });
-
-        try{
-            PostData(data,'plans')
-            setAlertColor('')
-            setAlertString('')
-            setToastColor('success');
-            setToastString("Successfully updated")
-        }
-        catch(error){
-            setAlertColor('failure')
-            setAlertString(`Error: ${error}`)
-        }
     }
 
     return (

@@ -21,6 +21,7 @@ export const CheckTeleHandleExists = async (type: string, username: string) => {
           throw new Error('Network response was not ok');
         }
         const responseData = await response.json();
+        console.log(responseData)
         const filteredData = responseData.filter((item: User) => item.telegramHandle === username);
         return filteredData;
       } catch (error) {
