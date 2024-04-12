@@ -39,3 +39,8 @@
 # Backup files #
 /backend/*.bak
 
+
+# Telebot #
+
+/telebot/bot/.env
+

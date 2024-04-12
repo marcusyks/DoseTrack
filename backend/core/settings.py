@@ -30,7 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS=[".railway.app"]
+DEBUG = True
+ALLOWED_HOSTS=['*']
+
+# ALLOWED_HOSTS=[".railway.app"]
 
 # Application definition
 
@@ -55,17 +58,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'plans',
-    'django_tgbot',
-    'dosetrackbot',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
-
-CORS_ALLOWED_ORIGINS = [env('WEBSITE'), env('AUTH_CLIENT_URL')]
+CORS_ALLOWED_ORIGINS = [env('WEBSITE'), env('AUTH_CLIENT_URL'),env('TELEGRAM')]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

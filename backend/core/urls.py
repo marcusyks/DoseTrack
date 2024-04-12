@@ -16,11 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from dosetrackbot import urls as dosetrackbot_urls
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/', include('core.api.urls')),
-    path('dosetrackbot/', include(dosetrackbot_urls))
 ]
