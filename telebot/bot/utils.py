@@ -30,7 +30,7 @@ def switch(state, option, bot, query, api_address):
 
             keyboard = [
                     [
-                        InlineKeyboardButton("Im done!", callback_data="check"),
+                        InlineKeyboardButton("Im done!", callback_data="check_check"),
                     ]
                 ]
 
