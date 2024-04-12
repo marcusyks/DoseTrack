@@ -146,7 +146,7 @@ export const PlanPage = () => {
 
     async function checkUser(type: string, id : string){
         const user : User = await CheckTeleHandleExists(type,id);
-        setUserExists(user.username);
+        setUserExists(user.telegramHandle);
     }
 
     function handleSubmit(e: FormEvent){

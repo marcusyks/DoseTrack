@@ -77,7 +77,7 @@ const Settings = () => {
 
     async function checkUser(type: string, id : string){
         const user : User = await CheckTeleHandleExists(type,id);
-        setUserExists(user.username);
+        setUserExists(user.telegramHandle);
     }
 
     async function updatePlans(plans: Plan[]){

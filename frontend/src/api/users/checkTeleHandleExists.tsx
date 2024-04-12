@@ -13,7 +13,6 @@
 
 import User from "../../objects/User";
 
-// limitations under the License.
 export const CheckTeleHandleExists = async (type: string, username: string) => {
     try {
         // Get all users that have started telegram bot
@@ -22,7 +21,7 @@ export const CheckTeleHandleExists = async (type: string, username: string) => {
           throw new Error('Network response was not ok');
         }
         const responseData = await response.json();
-        const filteredData = responseData.filter((item: User) => item.username === username);
+        const filteredData = responseData.filter((item: User) => item.telegramHandle === username);
         return filteredData;
       } catch (error) {
         console.error('Error:', error);

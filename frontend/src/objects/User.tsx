@@ -13,8 +13,7 @@
 // limitations under the License.
 
 type User = {
-    telegram_id: string,
-    username: string,
+    telegramHandle: string,
 }
 
 export default User
