@@ -68,7 +68,7 @@ def switch(state, option, bot, query, api_address):
             message=f'Your reminders are set! Use /plans to check them!'
             unactivated_plans = fetch_data_from_plans(username,False,api_address)
             update_plans(unactivated_plans,True,api_address)
-            query.edit_message_text(message, reply_markup=reply_markup)
+            query.edit_message_text(message)
 
         else:
             message = f'Update your plans online and press "Im done!" to check again'
