@@ -6,3 +6,4 @@ pycparser
 python-telegram-bot==11.1.0
 six
 django-environ
+requests
