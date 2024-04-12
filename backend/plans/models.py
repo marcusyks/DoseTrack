@@ -5,7 +5,8 @@ from django.utils import timezone
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     telegramHandle = models.CharField(max_length = 100, default = "")
-    
+    chatID = models.IntegerField(default=0)
+
     def __str__(self):
         return f'Username: {self.telegramHandle}'
 

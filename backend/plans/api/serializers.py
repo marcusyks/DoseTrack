@@ -4,7 +4,7 @@ from ..models import Plan, Medicine, User
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'telegramHandle']
+        fields = ['id', 'telegramHandle', 'chatID']
 
 class MedicineSerializer(ModelSerializer):
     class Meta:

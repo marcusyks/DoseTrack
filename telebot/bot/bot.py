@@ -24,10 +24,11 @@ bot = telegram.Bot(token=env('TOKEN'))
 def start(bot, update):
     # Create a user in Users if not exist
     username = update.effective_user.username
+    chatID = update.message.chat_id
     print(f'START - Username = {username}')
 
     users = get_users(API_ADDRESS_USERS)
-    create_user(users, username,API_ADDRESS_USERS)
+    create_user(users, username, chatID, API_ADDRESS_USERS)
 
     user_first_name = update.effective_user.first_name
 

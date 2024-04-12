@@ -11,13 +11,14 @@ def get_users(api_address):
         return None
 
 # Create user
-def create_user(users, username, api_address):
+def create_user(users, username, chatID, api_address):
     for user in users:
         user_name = user.get('telegramHandle')
         if user_name == username:
             print(f'{username} already exists')
             return
-    data = {'telegramHandle': username}
+    data = {'telegramHandle': username, 'chatID': chatID}
+    print(f'User Data - {data}')
     try:
         response = requests.post(api_address, data)
     except:

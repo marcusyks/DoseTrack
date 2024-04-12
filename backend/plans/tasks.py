@@ -1,6 +1,6 @@
 import json
 from .models import Plan
-from dosetrackbot.models import TelegramChat, TelegramState, TelegramUser
+from ..plans.models import User
 from celery import shared_task
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -11,7 +11,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-def send_scheduled_reminder(state, reminder, chatID):
+def send_scheduled_reminder(reminder, chatID):
 
     # Set up the parameters for the sendMessage method
     telegram_api_url = f"https://api.telegram.org/bot{env('BOT_TOKEN')}/sendMessage"  # Replace <your_bot_token> with your actual bot token
@@ -54,13 +54,9 @@ def should_send_reminder(frequency, current_time, plan):
     return send_reminder
 
 def find_user_id(username):
-    user = TelegramUser.objects.filter(username=username)
-    if len(user) == 1:
-        username_id = user[0].id
-        state = TelegramState.objects.filter(telegram_user_id=username_id)
-        classID = user[0].telegram_id
-        if len(state) == 1:
-            return state[0], classID
+    user = User.objects.filter(username=username)
+    chatID = user.chatID
+    return chatID
 
 def checkTime(time):
     current_time = time + timedelta(hours=8)
@@ -89,13 +85,12 @@ def check_reminders(): # A repeating loop to check each plan and send if they me
             logger.info("Sending message")
             # Get id of user
             username = plan.telegramHandle
-            target_state, chatID = find_user_id(username)
+            chatID = find_user_id(username)
 
             # Populate state memory
-            if target_state:
-                if target_state.name == "activate_celery":
-                    reminder = f"\t⭐ Reminder:\n\n\t🎯 Plan name: {plan.planName}\n\t{medicine_information}"
-                    send_scheduled_reminder(target_state, reminder, chatID)
+            if chatID:
+                reminder = f"\t⭐ Reminder:\n\n\t🎯 Plan name: {plan.planName}\n\t{medicine_information}"
+                send_scheduled_reminder(reminder, chatID)
 
 
 
