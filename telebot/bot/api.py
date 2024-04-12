@@ -18,7 +18,7 @@ def create_user(users, username, chatID, api_address):
             print(f'{username} already exists')
             return
     data = {'telegramHandle': username, 'chatID': chatID}
-    print(f'User Data - {data}')
+    # print(f'User Data - {data}')
     try:
         response = requests.post(api_address, data)
     except:
@@ -36,7 +36,7 @@ def fetch_all_plans_username(telegramHandle, api_address):
         for plan in plans: #Get plans that match telehandle and are of activation condition
             if plan.get('telegramHandle') == telegramHandle:
                 matching_plans.append(plan)
-        print(f'Matched Plans - {matching_plans}')
+        # print(f'Matched Plans - {matching_plans}')
         return matching_plans
     else:
         # Handle error
@@ -54,7 +54,7 @@ def fetch_data_from_plans(telegramHandle,activation,api_address):
         for plan in plans: #Get plans that match telehandle and are of activation condition
             if plan.get('telegramHandle') == telegramHandle and plan.get('activated') == activation:
                 matching_plans.append(plan)
-        print(f'Matched Plans - {matching_plans}')
+        # print(f'Matched Plans - {matching_plans}')
         return matching_plans
     else:
         # Handle error
@@ -65,7 +65,7 @@ def fetch_data_from_plans(telegramHandle,activation,api_address):
 # Update plans based on activation condition
 
 def update_plans(plans, activation, api_address):
-    print(f'Before Update : {plans}')
+    # print(f'Before Update : {plans}')
     for plan in plans:
         plan_id = plan.get('id')
         plan_url = api_address+f'{plan_id}/'
@@ -77,7 +77,7 @@ def update_plans(plans, activation, api_address):
             # Handle error
             print("Error updating data:", response.status_code)
             return None
-    print(f'After Update : {plans}')
+    # print(f'After Update : {plans}')
 
 def medicineFormatter(medicines):
     resultString = ""

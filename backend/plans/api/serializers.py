@@ -61,7 +61,7 @@ class PlanSerializer(ModelSerializer):
         instance.modeOfContact = validated_data['modeOfContact']
         if 'telegramHandle' in validated_data:
             instance.telegramHandle=validated_data['telegramHandle']
-        if 'activated' in validated_data: 
+        if 'activated' in validated_data:
             instance.activated=validated_data['activated']
         # Update other necessary fields as needed
 
