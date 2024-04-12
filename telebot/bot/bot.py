@@ -65,10 +65,10 @@ def help(bot, update):
 def stop(bot, update):
     username = update.effective_user.username
     activated_plans = fetch_data_from_plans(username,True,API_ADDRESS)
-    text = f"You have {len(activated_plans)} activated plans. Please start your plans with /start"
+    text = f"You have 0 activated plans. Please start your plans with /start"
     success_text = "Stopping bot now..."
 
-    if len(activated_plans) == 0:
+    if activated_plans is None:
         bot.sendMessage(chat_id=update.message.chat_id, text=text)
         return
 
