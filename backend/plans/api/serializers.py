@@ -1,6 +1,10 @@
 from rest_framework.serializers import ModelSerializer
-from ..models import Plan
-from ..models import Medicine
+from ..models import Plan, Medicine, User
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'telegramHandle']
 
 class MedicineSerializer(ModelSerializer):
     class Meta:

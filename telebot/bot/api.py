@@ -1,5 +1,47 @@
 import requests
 
+def get_users(api_address):
+    response = requests.get(api_address)
+    if response.status_code == 200:
+        plans = response.json()
+        return plans
+    else:
+        # Handle error
+        print("Error fetching data:", response.status_code)
+        return None
+
+# Create user
+def create_user(users, username, api_address):
+    for user in users:
+        user_name = user.get('telegramHandle')
+        if user_name == username:
+            print(f'{username} already exists')
+            return
+    data = {'telegramHandle': username}
+    try:
+        response = requests.post(api_address, data)
+    except:
+        print("Error fetching data:", response.status_code)
+
+
+# Fetch all plans based on username
+
+def fetch_all_plans_username(telegramHandle, api_address):
+    response = requests.get(api_address)
+    if response.status_code == 200:
+        plans = response.json()
+        # Filter data
+        matching_plans = []
+        for plan in plans: #Get plans that match telehandle and are of activation condition
+            if plan.get('telegramHandle') == telegramHandle:
+                matching_plans.append(plan)
+        print(f'Matched Plans - {matching_plans}')
+        return matching_plans
+    else:
+        # Handle error
+        print("Error fetching data:", response.status_code)
+        return None
+
 # Fetch plans based on activation condition
 
 def fetch_data_from_plans(telegramHandle,activation,api_address):

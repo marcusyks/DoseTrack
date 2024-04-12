@@ -1,7 +1,7 @@
 import telegram
 import logging
 import environ
-from .api import update_plans, fetch_data_from_plans, plansFormatter
+from .api import update_plans, fetch_data_from_plans, fetch_all_plans_username, plansFormatter, create_user, get_users
 from .utils import switch
 
 from telegram.ext import CommandHandler, Updater, CallbackQueryHandler
@@ -11,6 +11,7 @@ from telegram.ext.dispatcher import run_async
 env = environ.Env()
 environ.Env.read_env()
 API_ADDRESS = env('API_ADDRESS')
+API_ADDRESS_USERS = env('API_ADDRESS_USERS')
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -21,8 +22,12 @@ bot = telegram.Bot(token=env('TOKEN'))
 # Function for the /start command
 @run_async
 def start(bot, update):
+    # Create a user in Users if not exist
     username = update.effective_user.username
     print(f'START - Username = {username}')
+
+    users = get_users(API_ADDRESS_USERS)
+    create_user(users, username,API_ADDRESS_USERS)
 
     user_first_name = update.effective_user.first_name
 
@@ -51,7 +56,7 @@ def help(bot, update):
                             \n\t6) If your details are wrong, press 'No' and make changes on the website.
                             \n\t7) Press 'Im done!' to verify again. Move to step 5.
                             \n\t8) You are done!
-                            \n\t/plans to check your activated plans
+                            \n\t/plans to check all your plans
                             \n\t/stop to stop the reminders'''
     bot.sendMessage(chat_id=update.message.chat_id, text=text)
 
@@ -75,11 +80,11 @@ def stop(bot, update):
 def plans(bot, update):
     username = update.effective_user.username
     print(f'PLANS - Username = {username}')
-    plans = fetch_data_from_plans(username,True,API_ADDRESS)
+    plans = fetch_all_plans_username(username, API_ADDRESS)
     if len(plans) == 0:
-        bot.sendMessage(chat_id=update.message.chat_id, text=f"You have no activated plans...")
+        bot.sendMessage(chat_id=update.message.chat_id, text=f"You have no plans...")
         return
-    plans_text = plansFormatter(plans,'activated')
+    plans_text = plansFormatter(plans,'created')
     bot.sendMessage(chat_id=update.message.chat_id, text=plans_text)
 
 

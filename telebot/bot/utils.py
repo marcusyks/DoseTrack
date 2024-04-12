@@ -1,4 +1,4 @@
-from .api import fetch_data_from_plans,update_plans, plansFormatter
+from .api import fetch_data_from_plans, update_plans, fetch_all_plans_username, plansFormatter
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 def switch(state, option, bot, query, api_address):
@@ -30,13 +30,37 @@ def switch(state, option, bot, query, api_address):
 
             keyboard = [
                     [
-                        InlineKeyboardButton("Im done!", callback_data="start_yes"),
+                        InlineKeyboardButton("Im done!", callback_data="check"),
                     ]
                 ]
 
             reply_markup = InlineKeyboardMarkup(keyboard)
 
             query.edit_message_text(message, reply_markup=reply_markup)
+
+    elif state == "check":
+        # Check if username is in one of the plans -> show that user exists
+        plans = fetch_all_plans_username(username,api_address)
+        if len(plans) == 0:
+            message = f'You have not created an account/linked your telegram handle!'
+            keyboard = [
+                [
+                    InlineKeyboardButton("Try again!", callback_data="start_no"),
+                ]
+            ]
+
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            query.edit_message_text(message, reply_markup=reply_markup)
+            return
+        message = f'We have found your account! Press "Next" to proceed to the next step'
+        keyboard = [
+            [
+                InlineKeyboardButton("Next", callback_data="start_yes"),
+            ]
+        ]
+
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(message, reply_markup=reply_markup)
 
     elif state == "activate":
         # Update plans to activated
