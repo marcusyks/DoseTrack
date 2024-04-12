@@ -13,6 +13,7 @@
 // limitations under the License.
 
 type User = {
+    id: number,
     telegramHandle: string,
 }
 
