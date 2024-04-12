@@ -1,6 +1,5 @@
 import json
-from .models import Plan
-from .models import User
+from .models import Plan, User
 from celery import shared_task
 from django.utils import timezone
 from datetime import datetime, timedelta
