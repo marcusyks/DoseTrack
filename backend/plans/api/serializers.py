@@ -59,9 +59,9 @@ class PlanSerializer(ModelSerializer):
         instance.frequency = validated_data['frequency']
         instance.userID = validated_data['userID']
         instance.modeOfContact = validated_data['modeOfContact']
-        if validated_data['telegramHandle']:
+        if 'telegramHandle' in validated_data:
             instance.telegramHandle=validated_data['telegramHandle']
-        if validated_data['activated']:
+        if 'activated' in validated_data: 
             instance.activated=validated_data['activated']
         # Update other necessary fields as needed
 
