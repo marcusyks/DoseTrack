@@ -171,9 +171,6 @@ export const PlanPage = () => {
             return
         }
 
-        console.log(telegramHandle)
-        console.log(newTelegramHandle)
-
         // Does not have telegram handle and did not put new one
         if (telegramHandle === "" && newTelegramHandle === ""){
             setAlertColor('failure')
