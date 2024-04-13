@@ -39,8 +39,6 @@ export const PlanPage = () => {
     const [toastString, setToastString] = useState('');
     const [telegramHandle, setTelegramHandle] = useState<string>('')
     const [newTelegramHandle, setNewTelegramHandle] = useState<string>('')
-
-    const [userExists, setUserExists] = useState<string>('')
     const [nickname, setNickname] = useState<string>('')
 
     const {user, getAccessTokenSilently} = useAuth0();
@@ -146,10 +144,14 @@ export const PlanPage = () => {
 
     async function checkUser(type: string, id : string){
         const user : User = await CheckTeleHandleExists(type,id);
-        setUserExists(user.telegramHandle);
+        if (!user){
+            return true
+        }else{
+            return false
+        }
     }
 
-    function handleSubmit(e: FormEvent){
+    async function handleSubmit(e: FormEvent){
         e.preventDefault();
 
         // Rearranging of daysOfWeek
@@ -179,8 +181,8 @@ export const PlanPage = () => {
         }
 
         // If user inputted and user does not exist
-        checkUser("users",newTelegramHandle)
-        if ((userExists === undefined || "") && newTelegramHandle !== ""){
+        const error = await checkUser("users",newTelegramHandle)
+        if (error){
             setAlertColor('failure')
             setAlertString(`You have not started the telegram bot with @${newTelegramHandle}!`)
             return

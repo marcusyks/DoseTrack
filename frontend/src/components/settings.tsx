@@ -28,7 +28,6 @@ import UpdateData from "../api/plans/updateData";
 
 const Settings = () => {
     const {user, getAccessTokenSilently} = useAuth0();
-    const [userExists, setUserExists] = useState<string>('')
     const [plans,setPlans] = useState<Plan[]>([])
 
     const [nickname, setNickname] = useState<string>('')
@@ -77,7 +76,12 @@ const Settings = () => {
 
     async function checkUser(type: string, id : string){
         const user : User = await CheckTeleHandleExists(type,id);
-        setUserExists(user.telegramHandle);
+        if (!user){
+            return true
+        }
+        else{
+            return false
+        }
     }
 
     async function updatePlans(plans: Plan[]){
@@ -87,24 +91,20 @@ const Settings = () => {
                 frequency: plan.frequency,
                 userID: plan.userID,
                 modeOfContact: plan.modeOfContact,
-                telegramHandle: plan.telegramHandle,
+                telegramHandle: telegramHandle,
             });
             await UpdateData(data,"plans",plan.id)
         })
         await Promise.all(update);
     }
 
+
     const HandleSubmit = async(e: FormEvent) =>{
         e.preventDefault()
         //Checks
 
         // If user inputted and user does not exist
-        checkUser("users",telegramHandle)
-        if ((userExists === undefined || "") && telegramHandle !== ""){
-            setAlertColor('failure')
-            setAlertString(`You have not started the telegram bot with @${telegramHandle}!`)
-            return
-        }
+        const error = await checkUser("users",telegramHandle)
 
         const data = JSON.stringify({
             user_metadata:{
@@ -113,7 +113,14 @@ const Settings = () => {
             }
         })
 
+
         try {
+            if (error){
+                setAlertColor('failure')
+                setAlertString(`You have not started the telegram bot with @${telegramHandle}!`)
+                return
+            }
+
             const accessToken = await getAccessTokenSilently({
                 authorizationParams: {
                     audience: `${process.env.REACT_APP_AUTH_CLIENT_API}/`,

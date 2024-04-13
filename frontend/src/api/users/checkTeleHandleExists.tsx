@@ -22,7 +22,7 @@ export const CheckTeleHandleExists = async (type: string, username: string) => {
         }
         const responseData = await response.json();
         const filteredData = responseData.filter((item: User) => item.telegramHandle === username);
-        return filteredData;
+        return filteredData[0];
       } catch (error) {
         console.error('Error:', error);
     }
