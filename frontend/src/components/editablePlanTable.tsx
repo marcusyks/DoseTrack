@@ -189,7 +189,7 @@ export const EditablePlanTable = (props: PlanTableProps) => {
                   <Button onClick={() => setData(element)} className="font-medium text-white">
                       View More
                   </Button>
-                  <Modal show={openModal} onClose={() => setOpenModal(false)} className='flex-center w-screen h-screen m-6 overflow-y-hidden md:w-full h-full m-0'>
+                  <Modal show={openModal} onClose={() => setOpenModal(false)} className='w-screen m-6 overflow-y-hidden md:w-full m-0 pb-8'>
                     <Modal.Header>Edit Plan</Modal.Header>
                     <Modal.Body>
                       <Card>

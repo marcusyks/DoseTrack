@@ -31,9 +31,11 @@ export const NavBar = () =>{
 
     return (
     <Navbar fluid rounded className='bg-blue-200 sticky top-0 right-0 left-0 z-10'>
-      <Navbar.Brand href='/'>
-          <object data={Logo} type="image/png" className="h-8" aria-label="DoseTrack Logo"/>
-      </Navbar.Brand>
+      <Link to='/'>
+        <Navbar.Brand>
+            <object data={Logo} type="image/png" className="h-8" aria-label="DoseTrack Logo"/>
+        </Navbar.Brand>
+      </Link>
       <div className="flex md:order-2">
         <Dropdown
           arrowIcon={false}

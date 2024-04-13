@@ -30,12 +30,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS=[".railway.app"]
+ALLOWED_HOSTS=['.railway.app']
 
 # Application definition
 
 # Celery Configuration Options
 CELERY_BROKER_URL=env('REDIS_SERVER')
+CELERY_BACKEND_URL=env('REDIS_SERVER')
+CELERYD_OPTS='--concurrency=1'
 CELERY_TIMEZONE = "Asia/Singapore"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BEAT_SCHEDULE = {

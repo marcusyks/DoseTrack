@@ -29,7 +29,7 @@ export const GridStats = (props: GridStatsProps) =>{
                 <Card className="">
                     <span className="text-3xl">Your Plans</span>
                     <EditablePlanTable plans={props.plans}></EditablePlanTable>
-                    <Link to="/createplan"><Button className="bg-blue-200 text-black">Create New Plan</Button></Link>
+                    <Button className="bg-blue-200 text-black"><Link to="/createplan">Create New Plan</Link></Button>
                 </Card>
             </div>
         )
