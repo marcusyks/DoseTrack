@@ -66,7 +66,7 @@ def stop(bot, update):
     username = update.effective_user.username
     activated_plans = fetch_data_from_plans(username,True,API_ADDRESS)
     text = f"You have 0 activated plans. Please start your plans with /start"
-    success_text = "Stopping bot now..."
+    success_text = "Stopping your reminders now..."
 
     if activated_plans is None:
         bot.sendMessage(chat_id=update.message.chat_id, text=text)
