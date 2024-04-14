@@ -82,9 +82,11 @@ def plans(bot, update):
     username = update.effective_user.username
     print(f'PLANS - Username = {username}')
     plans = fetch_all_plans_username(username, API_ADDRESS)
-    if len(plans) == 0:
+
+    if plans is None:
         bot.sendMessage(chat_id=update.message.chat_id, text=f"You have no plans...")
         return
+
     plans_text = plansFormatter(plans,'created')
     bot.sendMessage(chat_id=update.message.chat_id, text=plans_text)
 
