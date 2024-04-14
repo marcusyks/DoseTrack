@@ -347,10 +347,6 @@ export const PlanPage = () => {
                                     (<div></div>)
                                 }
                             </div>
-                            <div>
-                                <Radio id="whatsapp" name="modeOfContact" className='mr-2' value="whatsapp" onChange={event => setModeOfContact(event.target.value)} />
-                                <Label htmlFor="whatsapp">Whatsapp</Label>
-                            </div>
                         </fieldset>
                     </div>
                     {CustomAlert(alertString,alertColor)}

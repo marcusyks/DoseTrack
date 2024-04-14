@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0749c30 (MVP)
 """
 URL configuration for core project.
 
@@ -23,128 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-<<<<<<< HEAD
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('core.api.urls')),
-]
-=======
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from dosetrackbot import urls as dosetrackbot_urls
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('core.api.urls')),
-    path('dosetrackbot/', include(dosetrackbot_urls)),
-]
->>>>>>> b6fa0ea (MVP v1:)
-=======
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from dosetrackbot import urls as dosetrackbot_urls
-
-urlpatterns = [
-    path('api/', include('core.api.urls')),
-    path('dosetrackbot/', include(dosetrackbot_urls)),
-]
->>>>>>> 387cbc4 (MVP v1.0)
-=======
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from dosetrackbot import urls as dosetrackbot_urls
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('api/', include('core.api.urls')),
-    path('dosetrackbot/', include(dosetrackbot_urls)),
-    path('api/accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('api/accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-]
->>>>>>> 2b6b674 (MVP)
-=======
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from dosetrackbot import urls as dosetrackbot_urls
-=======
->>>>>>> 0749c30 (MVP)
-from django.contrib.auth import views as auth_views
-
-
-urlpatterns = [
-<<<<<<< HEAD
-    path('api/', include('core.api.urls')),
-    path('dosetrackbot/', include(dosetrackbot_urls))
-]
->>>>>>> fe6c92b (MVP)
-=======
     path('admin/', admin.site.urls),
     path('api/', include('core.api.urls')),
 ]
->>>>>>> 0749c30 (MVP)
