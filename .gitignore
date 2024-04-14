@@ -31,11 +31,11 @@
 /backend/*.log
 /backend/*.pot
 /backend/*.pyc
-/backend/__pycache__
+/backend/core/__pycache__
+/backend/plans/__pycache__
 /backend/media
 /backend/core/.env
 /backend/venv
-/backend/.env
 
 # Backup files #
 /backend/*.bak
