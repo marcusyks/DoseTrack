@@ -2,6 +2,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0749c30 (MVP)
 """
 URL configuration for core project.
 
@@ -20,6 +23,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -128,11 +132,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from dosetrackbot import urls as dosetrackbot_urls
+=======
+>>>>>>> 0749c30 (MVP)
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+<<<<<<< HEAD
     path('api/', include('core.api.urls')),
     path('dosetrackbot/', include(dosetrackbot_urls))
 ]
 >>>>>>> fe6c92b (MVP)
+=======
+    path('admin/', admin.site.urls),
+    path('api/', include('core.api.urls')),
+]
+>>>>>>> 0749c30 (MVP)

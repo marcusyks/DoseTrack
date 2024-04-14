@@ -13,6 +13,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 """
 Django settings for core project.
 
@@ -2374,6 +2375,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 >>>>>>> 0a53063 (MVP v2)
 =======
+=======
+>>>>>>> 0749c30 (MVP)
 """
 Django settings for core project.
 
@@ -2524,4 +2527,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+<<<<<<< HEAD
 >>>>>>> f687c58 (MVP)
+=======
+>>>>>>> 0749c30 (MVP)
