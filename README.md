@@ -20,7 +20,7 @@ To contribute to or deploy DoseTrack, you'll need knowledge and experience in th
   - React.js
   - TypeScript
   - HTML
-  - CSS
+  - TailwindCSS
 
 - Backend Development:
   - Django
