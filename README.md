@@ -24,7 +24,6 @@ To contribute to or deploy DoseTrack, you'll need knowledge and experience in th
 
 - Backend Development:
   - Django
-  - Django ORM
   - Python
 
 - Database Management:
