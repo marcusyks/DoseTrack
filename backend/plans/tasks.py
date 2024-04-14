@@ -52,8 +52,8 @@ def should_send_reminder(frequency, current_time, plan):
             send_reminder = check_medicine_time(medicineNames, current_time, day) # Check individual medicine to be sent
     return send_reminder
 
-def find_user_id(username):
-    user = User.objects.filter(username=username)
+def find_user_id(telegramHandle):
+    user = User.objects.filter(telegramHandle=telegramHandle)
     chatID = user.chatID
     return chatID
 
@@ -83,8 +83,8 @@ def check_reminders(): # A repeating loop to check each plan and send if they me
         if medicine_information != "":
             logger.info("Sending message")
             # Get id of user
-            username = plan.telegramHandle
-            chatID = find_user_id(username)
+            telegramHandle = plan.telegramHandle
+            chatID = find_user_id(telegramHandle)
 
             # Populate state memory
             if chatID:
