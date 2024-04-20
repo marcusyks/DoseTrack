@@ -34,7 +34,6 @@ def check_medicine_time(medicineNames, current_time, day):
 
     for medicine in medicineNames:
         time = medicine.time
-        print(f'Current Time and Time specified is same? {current_time == str(time)}')
         if str(time) == current_time:
             result += resultFormatter(medicine, time, day)
 
@@ -53,9 +52,13 @@ def should_send_reminder(frequency, current_time, plan):
     return send_reminder
 
 def find_user_id(telegramHandle):
-    user = User.objects.filter(telegramHandle=telegramHandle)
-    chatID = user.chatID
-    return chatID
+    user = User.objects.filter(telegramHandle=telegramHandle).first()
+    if user:
+        chatID = user.chatID
+        return chatID
+    else:
+        print("User cannot be found!")
+        return None
 
 def checkTime(time):
     current_time = time + timedelta(hours=8)
@@ -86,7 +89,6 @@ def check_reminders(): # A repeating loop to check each plan and send if they me
             telegramHandle = plan.telegramHandle
             chatID = find_user_id(telegramHandle)
 
-            # Populate state memory
             if chatID:
                 reminder = f"\t⭐ Reminder:\n\n\t🎯 Plan name: {plan.planName}\n\t{medicine_information}"
                 send_scheduled_reminder(reminder, chatID)
