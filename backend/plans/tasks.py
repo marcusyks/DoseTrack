@@ -26,7 +26,7 @@ def send_scheduled_reminder(reminder, chatID):
     if response.status_code == 200:
         print("Reminder message sent successfully!")
     else:
-        print("Failed to send reminder message.", response.status.code)
+        print("Failed to send reminder message. Status code: ", response.status_code)
 
 # Celery
 def resultFormatter(medicine, time, day):
