@@ -13,7 +13,11 @@ environ.Env.read_env()
 def send_scheduled_reminder(reminder, chatID):
 
     # Set up the parameters for the sendMessage method
-    telegram_api_url = f"https://api.telegram.org/bot{env('BOT_TOKEN')}/sendMessage"  # Replace <your_bot_token> with your actual bot token
+    bot_token = env('BOT_TOKEN')
+    telegram_api_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"  
+    if not bot_token:
+        print("Bot token not found. Please set the BOT_TOKEN environment variable.")
+        return
 
     # Send the reminder message using the Telegram bot API
     response = requests.post(telegram_api_url, json={"chat_id": chatID, "text": reminder})
@@ -22,7 +26,7 @@ def send_scheduled_reminder(reminder, chatID):
     if response.status_code == 200:
         print("Reminder message sent successfully!")
     else:
-        print("Failed to send reminder message.")
+        print("Failed to send reminder message.", response.status.code)
 
 # Celery
 def resultFormatter(medicine, time, day):
