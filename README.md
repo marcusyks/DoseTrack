@@ -6,8 +6,11 @@ DoseTrack is a web application designed to help you manage your medicinal dosage
 
 - **Medication Planning**: Create personalized plans for your medication dosages, including dosage amounts, frequencies, and timings.
 - **Customizable Reminders**: Set up reminders according to your preferences, including frequency and timing.
-https://github.com/marcusyks/DoseTrack/assets/75153201/246605c6-9973-4e82-9a42-7fa8d457cc0c
+  
+Link to a demo: https://github.com/marcusyks/DoseTrack/assets/75153201/246605c6-9973-4e82-9a42-7fa8d457cc0c
+
 - **Telegram Integration**: Receive reminders and alerts for your medication schedule directly on Telegram, keeping you informed wherever you are.
+  
 ![image](https://github.com/marcusyks/DoseTrack/assets/75153201/40d4b3ac-e06e-44f8-85eb-48cdffff7a10)
 
 - **React + Typescript Frontend**: Utilizes modern web technologies for a seamless and responsive user experience.
