@@ -181,10 +181,10 @@ export const PlanPage = () => {
         }
 
         // If user inputted and user does not exist
-        const error = await checkUser("users",newTelegramHandle)
+        const error = await checkUser("users",telegramHandle)
         if (error){
             setAlertColor('failure')
-            setAlertString(`You have not started the telegram bot with @${newTelegramHandle}!`)
+            setAlertString(`You have not started the telegram bot with @${telegramHandle}!`)
             return
         }
 
