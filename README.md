@@ -40,7 +40,3 @@ To contribute to or deploy DoseTrack, you'll need knowledge and experience in th
 - Task Queue Management:
   - Celery
 
-## Contributing
-
-Contributions to DoseTrack are welcome! If you'd like to contribute, please fork the repository, make your changes, and submit a pull request. Be sure to follow the project's coding conventions and guidelines.
-
