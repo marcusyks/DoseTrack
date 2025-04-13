@@ -1,5 +1,7 @@
 # DoseTrack
 
+NOTE: “Security/authentication features are in progress; the current version assumes a trusted local environment.”
+
 DoseTrack is a web application designed to help you manage your medicinal dosages effectively. With DoseTrack, you can create customized plans for your medication schedules and receive timely reminders via Telegram, ensuring you never miss a dose.
 
 ## Features
